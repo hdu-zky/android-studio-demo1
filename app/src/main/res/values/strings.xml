@@ -1,0 +1,26 @@
+<resources>
+    <string name="app_name">demo-1</string>
+    <string name="login_title">欢迎登录</string>
+    <string name="login_input_acc">输入账号</string>
+    <string name="login_input_pwd">输入密码</string>
+    <string name="login_btn_sign_in">登录</string>
+    <string name="login_btn_sign_up">注册</string>
+    <string name="login_register">新用户注册</string>
+    <string name="login_find_psw">忘记密码？</string>
+    <string name="login_info">登录即代表阅读并同意服务条款</string>
+    <string name="error_username">账号错误</string>
+    <string name="error_empty_username">账号不能为空</string>
+    <string name="error_pwd">密码错误</string>
+    <string name="error_empty_pwd">密码不能为空</string>
+    <string name="error_login">登陆失败,账号或密码错误</string>
+    <string name="title_activity_index">Index</string>
+    <string name="tab_text_1">Tab 1</string>
+    <string name="index_tab1_content_text">hello world, Tab 1</string>
+    <string name="tab_text_2">Tab 2</string>
+    <string name="index_tab2_content_text">hello world, Tab 2</string>
+    <string name="tab_text_3">Tab 3</string>
+    <string name="index_tab3_content_text">hello world, Tab 3</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>

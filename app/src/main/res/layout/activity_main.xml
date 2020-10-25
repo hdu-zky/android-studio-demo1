@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/login_bg_2"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_gravity="center"
+        android:layout_width="320dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="66dp">
+
+<!--        <ImageView-->
+<!--            android:id="@+id/symbol"-->
+<!--            android:layout_width="60dp"-->
+<!--            android:layout_gravity="left"-->
+<!--            android:background="@drawable/logo"-->
+<!--            android:layout_height="60dp"-->
+<!--            />-->
+
+        <TextView
+            android:id="@+id/login_title"
+            android:text="@string/login_title"
+            android:textSize="24sp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:textAlignment="center"/>
+    </LinearLayout>
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/login_username_layout"
+        android:layout_width="320dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="30dp"
+        android:theme="@style/AppTheme">
+        <!--输入框-->
+        <EditText
+            android:id="@+id/login_username"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:drawableLeft="@drawable/login_input_acc_bg"
+            android:drawablePadding="10dp"
+            android:paddingLeft="10dp"
+            android:hint="@string/login_input_acc"
+            android:textColor="@color/white"
+            android:textColorHint="@color/white"
+            android:textSize="20sp" />
+    </com.google.android.material.textfield.TextInputLayout>
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/login_pwd_layout"
+        android:layout_width="320dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:theme="@style/AppTheme">
+    <!--输入框-->
+    <EditText
+        android:id="@+id/login_pwd"
+        android:layout_width="320dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp"
+        android:hint="@string/login_input_pwd"
+        android:drawablePadding="10dp"
+        android:drawableLeft="@drawable/login_input_pwd_bg"
+        android:paddingLeft="10dp"
+        android:theme="@style/MyEditText"
+        android:textColor="@color/white"
+        android:textColorHint="@color/white"
+        android:textSize="20sp"
+        android:inputType="textPassword"/>
+    </com.google.android.material.textfield.TextInputLayout>
+    <!--按钮-->
+    <Button
+        android:id="@+id/btn_login"
+        android:text="@string/login_btn_sign_in"
+        android:background="#1E90FF"
+        android:textSize="24sp"
+        android:textColor="@color/white"
+        android:layout_gravity="center"
+        android:layout_marginTop="20dp"
+        android:layout_width="320dp"
+        android:layout_height="wrap_content"/>
+
+    <RelativeLayout
+        android:layout_marginTop="15dp"
+        android:layout_gravity="center"
+        android:layout_width="320dp"
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/tv_register"
+            android:layout_alignParentRight="true"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/login_register"/>
+        <!--layout_weight="1" layout_width="0dp"实现均分效果-->
+        <TextView
+            android:id="@+id/tv_find_psw"
+            android:gravity="center"
+            android:layout_alignParentLeft="true"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/login_find_psw" />
+    </RelativeLayout>
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <RelativeLayout
+            android:layout_gravity="center"
+            android:layout_marginBottom="30dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:textColor="@color/white"
+                android:layout_alignParentBottom="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/login_info" />
+        </RelativeLayout>
+    </LinearLayout>
+</LinearLayout>
