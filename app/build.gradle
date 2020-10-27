@@ -1,11 +1,19 @@
 apply plugin: 'com.android.application'
 
 android {
+    signingConfigs {
+        config {
+            storeFile file('C:\\Users\\zhukeyan\\Documents\\AndroidStudioProjects\\Activity\\demo-1.jks')
+            storePassword '223412'
+            keyAlias = 'demo-1'
+            keyPassword '223412'
+        }
+    }
     compileSdkVersion 30
     buildToolsVersion "30.0.2"
     defaultConfig {
         applicationId "com.example.activity"
-        minSdkVersion 15
+        minSdkVersion 20
         targetSdkVersion 28
         versionCode 1
         versionName "1.0"
@@ -15,15 +23,19 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.config
         }
     }
 }
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation 'com.android.support:appcompat-v7:30.0.0'
     implementation 'com.android.support:design:30.0.0'
     implementation 'com.android.support:support-v4:30.0.0'
-    implementation 'com.android.support:appcompat-v7:30.0.0'
+    implementation 'com.android.support:cardview-v7:30.0.0'
+    implementation 'com.android.support:recyclerview-v7:30.0.0'
+    implementation 'com.ashokvarma.android:bottom-navigation-bar:2.1.0'
     implementation 'androidx.appcompat:appcompat:1.2.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.2'
     implementation 'com.google.android.material:material:1.2.1'

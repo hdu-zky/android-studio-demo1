@@ -1,11 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="white">#fff</color>
+    <color name="darkWhite">#ddd</color>
+    <color name="info">#FF0000</color>
     <color name="colorGray">#666</color>
     <color name="colorBlack">#333</color>
     <color name="colorConfirm">#008577</color>
     <color name="colorPrimary">#008577</color>
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
+    <color name="ColorTabText">#FF000000</color>
+    <color name="ColorTabSelectedText">#FF00FF00</color>
+    <color name="ColorTabIndicator">#30e407</color>
+    <color name="mainColor">#03A9F4</color>
+    <color name="tabActive">#03A9F4</color>
+    <color name="tabBGColor">#F5F5F5</color>
+    <color name="tabInActive">#A5A5A5</color>
+    <color name="gray">#A9A9A9</color>
 
 </resources>

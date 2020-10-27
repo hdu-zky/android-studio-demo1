@@ -1,4 +1,4 @@
-package com.example.activity;
+package com.example.activity.fragment;
 
 import android.graphics.Color;
 import android.os.Bundle;
@@ -11,6 +11,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import com.example.activity.R;
 
 
 public class TabFragment extends Fragment {

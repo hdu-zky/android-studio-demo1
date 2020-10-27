@@ -1,4 +1,4 @@
-package com.example.activity;
+package com.example.activity.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.activity.R;
 import com.google.android.material.textfield.TextInputLayout;
 
 public class MainActivity extends AppCompatActivity {
@@ -67,8 +68,9 @@ public class MainActivity extends AppCompatActivity {
         }
         if(userName.equals("123") && password.equals("1234")){
             //打开主页面
-            Intent index = new Intent(MainActivity.this, Index.class);
+            Intent index = new Intent(MainActivity.this, IndexActivity.class);
             startActivity(index);
+            this.finish();
         }else {
             showMessage(getString(R.string.error_login));
         }
