@@ -1,0 +1,9 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".indexTabFragment.UserSettingsFragment">
+    <item android:id="@+id/action_message"
+        android:title="notifications"
+        android:icon="@drawable/email"
+        app:showAsAction="ifRoom"/>
+</menu>

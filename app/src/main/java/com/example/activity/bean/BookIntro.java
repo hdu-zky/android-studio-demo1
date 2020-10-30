@@ -4,14 +4,16 @@ public class BookIntro {
     private String imageSrc;
     private String bookName;
     private String bookAuthor;
-    private String bookStatus;
+    private String bookTypeName;
+    private int bookId;
     private String bookIntroduction;
 
-    public BookIntro(String imageSrc, String name, String author, String status, String intro){
+    public BookIntro(String imageSrc, String name, String author, String typeName,int bookId, String intro){
         this.imageSrc = imageSrc;
         this.bookName = name;
         this.bookAuthor = author;
-        this.bookStatus = status;
+        this.bookTypeName = typeName;
+        this.bookId = bookId;
         this.bookIntroduction = intro;
 
     }
@@ -25,8 +27,11 @@ public class BookIntro {
     public String getBookAuthor() {
         return bookAuthor;
     }
-    public String getBookStatus() {
-        return bookStatus;
+    public String getBookTypeName() {
+        return bookTypeName;
+    }
+    public int getBookId() {
+        return bookId;
     }
     public String getBookIntroduction() {
         return bookIntroduction;

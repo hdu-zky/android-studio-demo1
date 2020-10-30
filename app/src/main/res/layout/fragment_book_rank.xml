@@ -5,22 +5,21 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".fragment.BookRankFragment">
-
-    <com.google.android.material.tabs.TabLayout
-        android:id="@+id/tab_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:tabMode="scrollable"
-        app:tabGravity="center"
-        app:tabTextColor="@color/ColorTabText"
-        app:tabSelectedTextColor="@color/ColorTabSelectedText"
-        app:tabRippleColor="@android:color/transparent"
-        app:tabIndicatorColor="@color/ColorTabIndicator"
-        app:tabIndicatorFullWidth="false"
-        />
+    tools:context=".indexTabFragment.BookRankFragment">
+<!--    app:tabMode="scrollable"-->
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tab_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:tabMode="fixed"
+            app:tabGravity="fill"
+            app:tabIndicatorColor="@color/tabActive"
+            app:tabIndicatorFullWidth="false"
+            app:tabRippleColor="@android:color/transparent"
+            app:tabSelectedTextColor="@color/ColorTabSelectedText"
+            app:tabTextColor="@color/colorGray" />
     <androidx.viewpager.widget.ViewPager
-        android:id="@+id/view_pager"
+        android:id="@+id/rank_view_pager"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@+id/tab_layout"/>

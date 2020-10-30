@@ -34,14 +34,14 @@
         android:layout_width="320dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="60dp"
         android:theme="@style/AppTheme">
         <!--输入框-->
         <EditText
             android:id="@+id/login_username"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:drawableLeft="@drawable/login_input_acc_bg"
+            android:drawableLeft="@drawable/user"
             android:drawablePadding="10dp"
             android:paddingLeft="10dp"
             android:hint="@string/login_input_acc"
@@ -64,12 +64,12 @@
         android:layout_marginTop="10dp"
         android:hint="@string/login_input_pwd"
         android:drawablePadding="10dp"
-        android:drawableLeft="@drawable/login_input_pwd_bg"
+        android:drawableLeft="@drawable/unlock"
         android:paddingLeft="10dp"
         android:theme="@style/MyEditText"
         android:textColor="@color/white"
         android:textColorHint="@color/white"
-        android:textSize="20sp"
+        android:textSize="16sp"
         android:inputType="textPassword"/>
     </com.google.android.material.textfield.TextInputLayout>
     <!--按钮-->

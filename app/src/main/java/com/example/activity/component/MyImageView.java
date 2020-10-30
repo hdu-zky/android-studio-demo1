@@ -1,14 +1,15 @@
-package com.example.activity.fragment;
+package com.example.activity.component;
 
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Path;
+import android.graphics.RectF;
 import android.os.Handler;
 import android.os.Message;
 import android.util.AttributeSet;
-import android.util.DisplayMetrics;
 import android.util.Log;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 //import android.support.v7.widget.appCompatImageView;
 import android.widget.Toast;
@@ -171,7 +172,15 @@ public class MyImageView extends ImageView {
             Log.e("MyImageView","使用网络图片");
         }
     }
-
+    @Override
+    protected void onDraw(Canvas canvas) {
+        Path clipPath = new Path();
+        int w = this.getWidth();
+        int h = this.getHeight();
+        clipPath.addRoundRect(new RectF(0, 0, w, h), 10.0f, 10.0f, Path.Direction.CW);
+        canvas.clipPath(clipPath);
+        super.onDraw(canvas);
+    }
     /**
      * 缓存网络的图片
      * @param inputStream 网络的输入流

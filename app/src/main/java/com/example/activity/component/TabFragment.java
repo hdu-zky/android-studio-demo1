@@ -1,4 +1,4 @@
-package com.example.activity.fragment;
+package com.example.activity.component;
 
 import android.graphics.Color;
 import android.os.Bundle;

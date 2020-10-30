@@ -8,6 +8,7 @@ import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -25,8 +26,9 @@ public class MainActivity extends AppCompatActivity {
     private String password;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+            setContentView(R.layout.activity_main);
         initView();
 
     }
@@ -58,22 +60,21 @@ public class MainActivity extends AppCompatActivity {
      */
     private void login(){
         //先检查输入账号密码是否非空
-        if (!isNameValid()) {
-            showMessage(getString(R.string.error_username));
-            return;
-        }
-        if (!isPasswordValid()) {
-            showMessage(getString(R.string.error_pwd));
-            return;
-        }
-        if(userName.equals("123") && password.equals("1234")){
+//        if (!isNameValid()) {
+//            showMessage(getString(R.string.error_username));
+//            return;
+//        }
+//        if (!isPasswordValid()) {
+//            showMessage(getString(R.string.error_pwd));
+//            return;
+//        }
+//        if(userName.equals("123") && password.equals("1234")){
             //打开主页面
             Intent index = new Intent(MainActivity.this, IndexActivity.class);
             startActivity(index);
-            this.finish();
-        }else {
-            showMessage(getString(R.string.error_login));
-        }
+//        }else {
+//            showMessage(getString(R.string.error_login));
+//        }
     }
     /**
      * 监听输入框文本编辑结束事件并调用相关函数处理

@@ -1,44 +1,22 @@
 package com.example.activity.activity;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.viewpager.widget.ViewPager;
 
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.view.Gravity;
-import android.widget.Toast;
+import android.view.Window;
 
 import com.ashokvarma.bottomnavigation.BottomNavigationBar;
 import com.ashokvarma.bottomnavigation.BottomNavigationItem;
 import com.ashokvarma.bottomnavigation.ShapeBadgeItem;
 import com.ashokvarma.bottomnavigation.TextBadgeItem;
-import com.example.activity.fragment.BookIntroFragment;
 import com.example.activity.R;
-import com.example.activity.bean.BookIntro;
-import com.example.activity.fragment.BookRankFragment;
-import com.example.activity.fragment.BookShelfFragment;
-import com.example.activity.fragment.BookSortFragment;
-import com.example.activity.fragment.UserSettingsFragment;
-import com.google.android.material.tabs.TabLayout;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.PrintStream;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
+import com.example.activity.indexTabFragment.BookRankFragment;
+import com.example.activity.indexTabFragment.BookShelfFragment;
+import com.example.activity.indexTabFragment.BookSortFragment;
+import com.example.activity.indexTabFragment.UserSettingsFragment;
 
 public class IndexActivity extends AppCompatActivity implements BottomNavigationBar.OnTabSelectedListener{
 //    private String[] tabTitle = {"tab1", "tab2", "tab3", "tab4", "tab5", "tab6"};
@@ -58,6 +36,7 @@ public class IndexActivity extends AppCompatActivity implements BottomNavigation
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_index);
 
@@ -106,7 +85,7 @@ public class IndexActivity extends AppCompatActivity implements BottomNavigation
         mBottomNavigationBar.setMode(BottomNavigationBar.MODE_FIXED);
         // TODO 设置背景色样式
         mBottomNavigationBar.setBackgroundStyle(BottomNavigationBar.BACKGROUND_STYLE_STATIC);
-        mBottomNavigationBar.setBarBackgroundColor(R.color.colorPrimary);
+        mBottomNavigationBar.setBarBackgroundColor(R.color.white);
         //消息提示
         TextBadgeItem mTextBadgeItem = new TextBadgeItem()
                 .setBorderWidth(4)
@@ -114,7 +93,7 @@ public class IndexActivity extends AppCompatActivity implements BottomNavigation
                 .setText("5")
                 .setTextColorResource(R.color.white)
                 .setBorderColorResource(R.color.info)  //外边界颜色
-                .setHideOnSelect(false);
+                .setHideOnSelect(true);
 
         ShapeBadgeItem mShapeBadgeItem = new ShapeBadgeItem()
                 .setShape(ShapeBadgeItem.SHAPE_OVAL)
@@ -127,14 +106,14 @@ public class IndexActivity extends AppCompatActivity implements BottomNavigation
                 .setGravity(Gravity.TOP | Gravity.END)
                 .setHideOnSelect(false);
         mBottomNavigationBar
-                .addItem(new BottomNavigationItem(R.drawable.logo, "排行").setActiveColorResource(R.color.white)
-                        .setInactiveIconResource(R.drawable.logo).setInActiveColorResource(R.color.darkWhite).setBadgeItem(mTextBadgeItem))
-                .addItem(new BottomNavigationItem(R.drawable.logo, "分类").setActiveColorResource(R.color.white)
-                        .setInactiveIconResource(R.drawable.logo).setInActiveColorResource(R.color.darkWhite).setBadgeItem(mTextBadgeItem))
-                .addItem(new BottomNavigationItem(R.drawable.logo, "书架").setActiveColorResource(R.color.white)
-                        .setInactiveIconResource(R.drawable.logo).setInActiveColorResource(R.color.darkWhite).setBadgeItem(mTextBadgeItem))
-                .addItem(new BottomNavigationItem(R.drawable.logo, "设置").setActiveColorResource(R.color.white)
-                        .setInactiveIconResource(R.drawable.logo).setInActiveColorResource(R.color.darkWhite).setBadgeItem(mTextBadgeItem))
+                .addItem(new BottomNavigationItem(R.drawable.rank_active, "排行").setActiveColorResource(R.color.tabActive)
+                        .setInactiveIconResource(R.drawable.rank_in_active).setInActiveColorResource(R.color.tabInActive).setBadgeItem(mTextBadgeItem))
+                .addItem(new BottomNavigationItem(R.drawable.menu, "分类").setActiveColorResource(R.color.tabActive)
+                        .setInactiveIconResource(R.drawable.menu_in_active).setInActiveColorResource(R.color.tabInActive).setBadgeItem(mTextBadgeItem))
+                .addItem(new BottomNavigationItem(R.drawable.shelf, "书架").setActiveColorResource(R.color.tabActive)
+                        .setInactiveIconResource(R.drawable.shelf_in_active).setInActiveColorResource(R.color.tabInActive).setBadgeItem(mTextBadgeItem))
+                .addItem(new BottomNavigationItem(R.drawable.user_active, "设置").setActiveColorResource(R.color.tabActive)
+                        .setInactiveIconResource(R.drawable.user_in_active).setInActiveColorResource(R.color.tabInActive).setBadgeItem(mTextBadgeItem))
                 .setFirstSelectedPosition(lastSelectedPosition)
                 .initialise();
 
@@ -175,7 +154,6 @@ public class IndexActivity extends AppCompatActivity implements BottomNavigation
                 }
                 break;
             case 2:  // 书架
-
                 if (mBookShelfFragment == null) {
                     mBookShelfFragment = BookShelfFragment.newInstance("1","2");
                     mTransaction.add(R.id.fl_content,
@@ -183,8 +161,8 @@ public class IndexActivity extends AppCompatActivity implements BottomNavigation
                 } else {
                     mTransaction.show(mBookShelfFragment);
                 }
+                break;
             case 3:  // 我的
-
                 if (mUserSettingsFragment == null) {
                     mUserSettingsFragment = UserSettingsFragment.newInstance("1","2");
                     mTransaction.add(R.id.fl_content,
@@ -192,7 +170,6 @@ public class IndexActivity extends AppCompatActivity implements BottomNavigation
                 } else {
                     mTransaction.show(mUserSettingsFragment);
                 }
-
                 break;
         }
         // 事务提交

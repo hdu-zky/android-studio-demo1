@@ -1,7 +1,5 @@
-package com.example.activity.fragment;
+package com.example.activity.indexTabFragment;
 
-import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -39,22 +37,13 @@ public class BookRankFragment extends Fragment {
     private String mParam1;
     private String mParam2;
     private View v;
-    private String[] tabTitle = {"tab1", "tab2", "tab3", "tab4", "tab5", "tab6"};
-    private List<BookIntroFragment> BookIntroFragmentList = new ArrayList<>();
+    private String[] tabTitle = {"总点击", "总收藏", "总下载"};
+    private List<RankTabFragment> BookIntroFragmentList = new ArrayList<>();
     private List<BookIntro> bookIntroList = new ArrayList<>();
 
     public BookRankFragment() {
         // Required empty public constructor
     }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment BookRankFragment.
-     */
     // TODO: Rename and change types and number of parameters
     public static BookRankFragment newInstance(String param1, String param2) {
         BookRankFragment fragment = new BookRankFragment();
@@ -84,12 +73,12 @@ public class BookRankFragment extends Fragment {
          * */
         v = inflater.inflate(R.layout.fragment_book_rank, container, false);
         TabLayout  mTabLayout =  v.findViewById(R.id.tab_layout);
-        ViewPager viewPager = v.findViewById(R.id.view_pager);
+        ViewPager viewPager = v.findViewById(R.id.rank_view_pager);
 
         //添加tab
         for (int i = 0; i < tabTitle.length; i++) {
             mTabLayout.addTab(mTabLayout.newTab().setText(tabTitle[i]));
-            BookIntroFragmentList.add(BookIntroFragment.newInstance(tabTitle[i]));
+            BookIntroFragmentList.add(RankTabFragment.newInstance(tabTitle[i], i+1));
         }
         viewPager.setAdapter(new FragmentPagerAdapter(getChildFragmentManager(), FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
             @NonNull
@@ -109,7 +98,8 @@ public class BookRankFragment extends Fragment {
                 return tabTitle[position];
             }
         });
-
+        // 预加载界面个数，当前显示一个,预先加载两个
+//        viewPager.setOffscreenPageLimit(2);
         //设置TabLayout和ViewPager联动
         mTabLayout.setupWithViewPager(viewPager,false);
         return v;

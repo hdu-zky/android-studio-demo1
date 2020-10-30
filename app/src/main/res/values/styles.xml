@@ -9,6 +9,11 @@
         <item name="colorControlNormal">@color/white</item>
         <item name="colorControlActivated">@color/colorConfirm</item>
     </style>
+    <style name="ToolBarTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">#2e8abb</item> <!--浅蓝色-->
+        <item name="colorPrimaryDark">#3A5FCD</item> <!--深蓝色-->
+    </style>
     <style name="MyEditText" parent="Theme.AppCompat.Light">
         <item name="colorControlNormal">@color/white</item>
         <item name="colorControlActivated">@color/colorConfirm</item>
@@ -16,6 +21,10 @@
     <style name="MyErrorStyle" parent="Theme.AppCompat.Light">
         <item name="colorControlNormal">@color/white</item>
         <item name="colorControlActivated">@color/colorConfirm</item>
+    </style>SmallGreyTextView
+    <style name="SmallGreyTextView" parent="Theme.AppCompat.Light">
+        <item name="colorPrimary">@color/colorGray</item>
+        <item name="backgroundColor">@color/lightGray</item>
     </style>
     <style name="AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>

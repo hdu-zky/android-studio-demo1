@@ -1,14 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragment.BookShelfFragment">
-
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    android:orientation="vertical"
+    tools:context=".indexTabFragment.BookShelfFragment">
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/login_btn_sign_up" />
-
-</FrameLayout>
+        android:layout_height="wrap_content">
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/shelf_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:background="@color/tabActive">
+            <LinearLayout
+                android:layout_width="60dp"
+                android:layout_height="wrap_content"
+                android:padding="3dp"
+                android:background="@drawable/corner_radius_filter">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:drawableLeft="@drawable/ic_filter_svg_24"
+                    android:background="#01000000"
+                    android:drawablePadding="0dp"
+                    android:gravity="center"
+                    android:textColor="@color/white"
+                    android:textSize="14sp"
+                    android:text="筛选"/>
+            </LinearLayout>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="书架"
+                android:textColor="@color/white"
+                android:textSize="20sp"/>
+        </androidx.appcompat.widget.Toolbar>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="6dp"
+        android:orientation="vertical"
+        android:layout_below="@+id/shelf_toolbar">
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/swipeRefreshLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            >
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/bookShelf_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+    </LinearLayout>
+</LinearLayout>
