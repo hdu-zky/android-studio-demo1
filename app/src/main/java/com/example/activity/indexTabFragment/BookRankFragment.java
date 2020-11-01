@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,11 +32,11 @@ public class BookRankFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    private static final String ARG_PARAM2 = "userId";
 
     // TODO: Rename and change types of parameters
     private String mParam1;
-    private String mParam2;
+    private String userId;
     private View v;
     private String[] tabTitle = {"总点击", "总收藏", "总下载"};
     private List<RankTabFragment> BookIntroFragmentList = new ArrayList<>();
@@ -45,11 +46,12 @@ public class BookRankFragment extends Fragment {
         // Required empty public constructor
     }
     // TODO: Rename and change types and number of parameters
-    public static BookRankFragment newInstance(String param1, String param2) {
+    public static BookRankFragment newInstance(String param1, String userId) {
         BookRankFragment fragment = new BookRankFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
+        args.putString(ARG_PARAM2, userId);
+        Log.d("BookRankFragment ","newInstance "+userId);
         fragment.setArguments(args);
         return fragment;
     }
@@ -59,7 +61,7 @@ public class BookRankFragment extends Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+            userId = getArguments().getString(ARG_PARAM2);
         }
     }
 
@@ -78,7 +80,8 @@ public class BookRankFragment extends Fragment {
         //添加tab
         for (int i = 0; i < tabTitle.length; i++) {
             mTabLayout.addTab(mTabLayout.newTab().setText(tabTitle[i]));
-            BookIntroFragmentList.add(RankTabFragment.newInstance(tabTitle[i], i+1));
+            Log.d("BookRankFragment ","onCreateView "+getArguments().getString(ARG_PARAM2));
+            BookIntroFragmentList.add(RankTabFragment.newInstance(tabTitle[i], i+1, getArguments().getString(ARG_PARAM2)));
         }
         viewPager.setAdapter(new FragmentPagerAdapter(getChildFragmentManager(), FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
             @NonNull

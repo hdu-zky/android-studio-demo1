@@ -29,7 +29,7 @@ import android.annotation.SuppressLint;
 
 public class MyImageView extends ImageView {
     private String imagePath;
-    //是否启用缓存
+    //是否启用缓存UseNetWorkImageView
     public boolean isUseCache = true;
     //设置网络图片
     public void setImageURL(String path) {

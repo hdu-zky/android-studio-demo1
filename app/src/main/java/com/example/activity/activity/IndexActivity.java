@@ -4,7 +4,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.Window;
 
@@ -33,6 +36,8 @@ public class IndexActivity extends AppCompatActivity implements BottomNavigation
     private UserSettingsFragment mUserSettingsFragment;  //个人设置
 
     private int lastSelectedPosition;
+    SharedPreferences mContextSp;
+    private String userId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +45,9 @@ public class IndexActivity extends AppCompatActivity implements BottomNavigation
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_index);
 
+        mContextSp = this.getSharedPreferences( "userInfo", Context.MODE_PRIVATE );
+        userId = mContextSp.getString( "userId", "-1" );
+        Log.e("userId"," "+userId);
         mBottomNavigationBar = findViewById(R.id.bottom_navigation_bar);
         initBottomNavBar();
 
@@ -107,9 +115,9 @@ public class IndexActivity extends AppCompatActivity implements BottomNavigation
                 .setHideOnSelect(false);
         mBottomNavigationBar
                 .addItem(new BottomNavigationItem(R.drawable.rank_active, "排行").setActiveColorResource(R.color.tabActive)
-                        .setInactiveIconResource(R.drawable.rank_in_active).setInActiveColorResource(R.color.tabInActive).setBadgeItem(mTextBadgeItem))
+                        .setInactiveIconResource(R.drawable.rank_in_active).setInActiveColorResource(R.color.tabInActive))
                 .addItem(new BottomNavigationItem(R.drawable.menu, "分类").setActiveColorResource(R.color.tabActive)
-                        .setInactiveIconResource(R.drawable.menu_in_active).setInActiveColorResource(R.color.tabInActive).setBadgeItem(mTextBadgeItem))
+                        .setInactiveIconResource(R.drawable.menu_in_active).setInActiveColorResource(R.color.tabInActive))
                 .addItem(new BottomNavigationItem(R.drawable.shelf, "书架").setActiveColorResource(R.color.tabActive)
                         .setInactiveIconResource(R.drawable.shelf_in_active).setInActiveColorResource(R.color.tabInActive).setBadgeItem(mTextBadgeItem))
                 .addItem(new BottomNavigationItem(R.drawable.user_active, "设置").setActiveColorResource(R.color.tabActive)
@@ -137,7 +145,7 @@ public class IndexActivity extends AppCompatActivity implements BottomNavigation
         switch (position) {
             case 0:   // 排行
                 if (mBookRankFragment == null) {
-                    mBookRankFragment = BookRankFragment.newInstance("1","2");
+                    mBookRankFragment = BookRankFragment.newInstance("1", userId);
                     mTransaction.add(R.id.fl_content,
                             mBookRankFragment);
                 } else {
@@ -146,7 +154,7 @@ public class IndexActivity extends AppCompatActivity implements BottomNavigation
                 break;
             case 1:    // 分类
                 if (mBookSortFragment == null) {
-                    mBookSortFragment = BookSortFragment.newInstance("1","2");
+                    mBookSortFragment = BookSortFragment.newInstance("1",userId);
                     mTransaction.add(R.id.fl_content,
                             mBookSortFragment);
                 } else {
@@ -155,7 +163,7 @@ public class IndexActivity extends AppCompatActivity implements BottomNavigation
                 break;
             case 2:  // 书架
                 if (mBookShelfFragment == null) {
-                    mBookShelfFragment = BookShelfFragment.newInstance("1","2");
+                    mBookShelfFragment = BookShelfFragment.newInstance("1", userId);
                     mTransaction.add(R.id.fl_content,
                             mBookShelfFragment);
                 } else {
@@ -164,7 +172,7 @@ public class IndexActivity extends AppCompatActivity implements BottomNavigation
                 break;
             case 3:  // 我的
                 if (mUserSettingsFragment == null) {
-                    mUserSettingsFragment = UserSettingsFragment.newInstance("1","2");
+                    mUserSettingsFragment = UserSettingsFragment.newInstance("1", userId);
                     mTransaction.add(R.id.fl_content,
                             mUserSettingsFragment);
                 } else {
@@ -173,6 +181,7 @@ public class IndexActivity extends AppCompatActivity implements BottomNavigation
                 break;
         }
         // 事务提交
+        mTransaction.addToBackStack(null);
         mTransaction.commit();
     }
 
@@ -202,7 +211,7 @@ public class IndexActivity extends AppCompatActivity implements BottomNavigation
     }
 
     private void setDefaultFragment() {
-        mBookRankFragment = BookRankFragment.newInstance("1","2");
+        mBookRankFragment = BookRankFragment.newInstance("1",userId);
         mManager = getSupportFragmentManager();
         mTransaction = mManager.beginTransaction();
         mTransaction.add(R.id.fl_content, mBookRankFragment);

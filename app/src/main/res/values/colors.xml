@@ -2,6 +2,7 @@
 <resources>
     <color name="white">#fff</color>
     <color name="blue">#007BB1</color>
+    <color name="loginBtn">#1E90FF</color>
     <color name="navBackgroundColor">#ECF0F0</color>
     <color name="bookNameColor">#000</color>
     <color name="darkWhite">#ddd</color>
@@ -10,7 +11,8 @@
     <color name="dddGray">#ddd</color>
     <color name="lightGray">#999</color>
     <color name="colorBlack">#333</color>
-    <color name="colorConfirm">#008577</color>
+<!--    <color name="colorConfirm">#008577</color>-->
+    <color name="colorConfirm">#007BB1</color>
 <!--    <color name="colorPrimary">#008577</color>-->
     <color name="colorPrimary">#007BB1</color>
 <!--    <color name="colorPrimaryDark">#00574B</color>-->
@@ -21,8 +23,12 @@
     <color name="ColorTabIndicator">#008577</color>
     <color name="mainColor">#03A9F4</color>
     <color name="tabActive">#1296db</color>
+
+    <color name="tabActiveTra">#ff1296ff</color>
+
     <color name="tabBGColor">#F5F5F5</color>
     <color name="tabInActive">#8a8a8a</color>
     <color name="gray">#A9A9A9</color>
+    <color name="transparent">#00000000</color>
 
 </resources>

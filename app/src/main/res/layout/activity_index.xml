@@ -1,38 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/index_content"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".activity.IndexActivity">
-
-<!--    <com.google.android.material.tabs.TabLayout-->
-<!--        android:id="@+id/tab_layout"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        app:tabMode="scrollable"-->
-<!--        app:tabGravity="center"-->
-<!--        app:tabTextColor="@color/ColorTabText"-->
-<!--        app:tabSelectedTextColor="@color/ColorTabSelectedText"-->
-<!--        app:tabRippleColor="@android:color/transparent"-->
-<!--        app:tabIndicatorColor="@color/ColorTabIndicator"-->
-<!--        app:tabIndicatorFullWidth="false"-->
-<!--        />-->
-<!--    <androidx.viewpager.widget.ViewPager-->
-<!--        android:id="@+id/view_pager"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        app:layout_constraintTop_toBottomOf="@+id/tab_layout"/>-->
-    <FrameLayout
-        android:id="@+id/fl_content"
+    tools:context=".activity.IndexActivity"
+    >
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1" />
-    <com.ashokvarma.bottomnavigation.BottomNavigationBar
-        android:id="@+id/bottom_navigation_bar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+    <!--这个FrameLayout实现主页面下的4个子fragment的展示, 包括BookRankFragment、BookSortFragment、BookShelfFragment
+        以及UserSettingsFragment。BookRankFragment其中包含TabLayout，TabLayout下分为三个子fragment，
+        全部从rankTabFragment实例化而来
+        -->
+        <FrameLayout
+            android:id="@+id/fl_content"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+        <com.ashokvarma.bottomnavigation.BottomNavigationBar
+            android:id="@+id/bottom_navigation_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
 
-</LinearLayout >
+    </LinearLayout>
+
+</FrameLayout >

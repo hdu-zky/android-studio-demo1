@@ -15,6 +15,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.activity.R;
 import com.example.activity.bean.BookShelf;
+import com.example.activity.component.RoundImageView;
 
 import java.util.List;
 
@@ -55,7 +56,8 @@ public class BookShelfAdapter extends Adapter<RecyclerView.ViewHolder> {
     }
     static class ShelfItemViewHolder extends ViewHolder {
         //final MyImageView mImageView;
-        ImageView mImageView;
+        final RoundImageView mImageView;
+//        ImageView mImageView;
         TextView mBookNameView;
         TextView mAuthorNameView;
         TextView mTypeNameView;

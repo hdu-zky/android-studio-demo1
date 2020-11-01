@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:orientation="vertical"
     tools:context=".indexTabFragment.UserSettingsFragment">
     <LinearLayout
@@ -31,6 +30,10 @@
         </androidx.appcompat.widget.Toolbar>
     </LinearLayout>
 
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="none">
     <LinearLayout
         xmlns:zsg="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
@@ -128,9 +131,64 @@
             zsg:show_bottomline="false"
             zsg:show_leftimg="@drawable/menu"
             zsg:show_text="关于" />
+        <com.example.activity.component.UserSettingsItem
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            zsg:show_bottomline="true"
+            zsg:show_leftimg="@drawable/menu"
+            zsg:show_text="我的收藏" />
 
+        <com.example.activity.component.UserSettingsItem
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            zsg:show_bottomline="true"
+            zsg:show_leftimg="@drawable/menu"
+            zsg:show_text="历史记录" />
 
+        <com.example.activity.component.UserSettingsItem
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            zsg:show_bottomline="false"
+            zsg:show_leftimg="@drawable/menu"
+            zsg:show_text="离线缓存" />
+
+        <com.example.activity.component.UserSettingsItem
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:background="@color/white"
+            zsg:show_bottomline="true"
+            zsg:show_leftimg="@drawable/menu"
+            zsg:show_text="版本更新" />
+
+        <com.example.activity.component.UserSettingsItem
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            zsg:show_bottomline="false"
+            zsg:show_leftimg="@drawable/menu"
+            zsg:show_text="关于" />
+
+        <com.example.activity.component.UserSettingsItem
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            zsg:show_bottomline="true"
+            zsg:show_leftimg="@drawable/menu"
+            zsg:show_text="我的收藏" />
+        <Button
+            android:id="@+id/btn_logout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:layout_marginStart="16px"
+            android:layout_marginEnd="16dp"
+            android:text="重新登录"
+            android:textColor="@color/blue"
+            android:textSize="18sp"/>
     </LinearLayout>
-
-
+    </ScrollView>
 </LinearLayout>

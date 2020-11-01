@@ -1,5 +1,7 @@
 package com.example.activity.bean;
 
+import android.util.Log;
+
 public class BookIntro {
     private String imageSrc;
     private String bookName;
@@ -8,12 +10,12 @@ public class BookIntro {
     private int bookId;
     private String bookIntroduction;
 
-    public BookIntro(String imageSrc, String name, String author, String typeName,int bookId, String intro){
+    public BookIntro(String imageSrc, String name, String author, String typeName,int id, String intro){
         this.imageSrc = imageSrc;
         this.bookName = name;
         this.bookAuthor = author;
         this.bookTypeName = typeName;
-        this.bookId = bookId;
+        this.bookId = id;
         this.bookIntroduction = intro;
 
     }

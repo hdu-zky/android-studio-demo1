@@ -7,17 +7,18 @@
     android:orientation="vertical"
     tools:context=".indexTabFragment.BookRankFragment">
 <!--    app:tabMode="scrollable"-->
-        <com.google.android.material.tabs.TabLayout
-            android:id="@+id/tab_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:tabMode="fixed"
-            app:tabGravity="fill"
-            app:tabIndicatorColor="@color/tabActive"
-            app:tabIndicatorFullWidth="false"
-            app:tabRippleColor="@android:color/transparent"
-            app:tabSelectedTextColor="@color/ColorTabSelectedText"
-            app:tabTextColor="@color/colorGray" />
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tab_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        app:tabMode="fixed"
+        app:tabGravity="fill"
+        app:tabIndicatorColor="@color/tabActive"
+        app:tabIndicatorFullWidth="false"
+        app:tabRippleColor="@android:color/transparent"
+        app:tabSelectedTextColor="@color/ColorTabSelectedText"
+        app:tabTextColor="@color/colorGray" />
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/rank_view_pager"
         android:layout_width="match_parent"

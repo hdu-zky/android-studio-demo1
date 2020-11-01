@@ -46,12 +46,12 @@ import java.util.Map;
 public class BookShelfFragment extends Fragment {
 
 
-    private static final String ARG_PARAM1 = "userId";
-    private static final String ARG_PARAM2 = "param2";
+    private static final String ARG_PARAM1 = "param1";
+    private static final String ARG_PARAM2 = "userId";
 
     // TODO: Rename and change types of parameters
+    private String mParam1;
     private String userId;
-    private String mParam2;
     private Toolbar toolbar;
     private RecyclerView recyclerView;
     private List<BookShelf> bookShelfList = new ArrayList<>();
@@ -65,12 +65,11 @@ public class BookShelfFragment extends Fragment {
     }
 
     // TODO: Rename and change types and number of parameters
-    public static BookShelfFragment newInstance(String userId, String param2) {
+    public static BookShelfFragment newInstance(String param1, String userId) {
         BookShelfFragment fragment = new BookShelfFragment();
         Bundle args = new Bundle();
-        String uId = "1001";
-        args.putString(ARG_PARAM1, uId);
-        args.putString(ARG_PARAM2, param2);
+        args.putString(ARG_PARAM1, param1);
+        args.putString(ARG_PARAM2, userId);
         fragment.setArguments(args);
         return fragment;
     }
@@ -85,9 +84,9 @@ public class BookShelfFragment extends Fragment {
         }
         if (getArguments() != null) {
             // TODO:初始化参数及请求数据
-            userId = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-            loadNextData(false);
+            mParam1 = getArguments().getString(ARG_PARAM1);
+            userId= getArguments().getString(ARG_PARAM2);
+            loadNextData(true);
         }
     }
 
@@ -165,7 +164,7 @@ public class BookShelfFragment extends Fragment {
      * */
     private boolean loadNextData(boolean reFresh){
         Map<String, String> map = new HashMap<String, String>();
-        String id = getArguments().getString(ARG_PARAM1);
+        String id = getArguments().getString(ARG_PARAM2);
         map.put("userId", id);
         String data = http.httpPost(httpUrl, map);
 

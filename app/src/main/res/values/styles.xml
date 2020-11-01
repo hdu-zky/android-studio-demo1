@@ -8,11 +8,15 @@
         <item name="colorAccent">@color/colorAccent</item>
         <item name="colorControlNormal">@color/white</item>
         <item name="colorControlActivated">@color/colorConfirm</item>
-    </style>
+    </style>hintAppearence
     <style name="ToolBarTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">#2e8abb</item> <!--浅蓝色-->
         <item name="colorPrimaryDark">#3A5FCD</item> <!--深蓝色-->
+    </style>
+    <style name="hintSet" parent="TextAppearance.AppCompat">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/white</item>
     </style>
     <style name="MyEditText" parent="Theme.AppCompat.Light">
         <item name="colorControlNormal">@color/white</item>

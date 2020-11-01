@@ -1,5 +1,6 @@
 package com.example.activity.indexTabFragment;
 
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -16,15 +17,16 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.PopupWindow;
 import android.widget.Toast;
 
 import com.example.activity.R;
 import com.example.activity.adapter.BookIntroAdapter;
-import com.example.activity.adapter.BookShelfAdapter;
 import com.example.activity.bean.BookIntro;
-import com.example.activity.bean.BookShelf;
 import com.example.activity.util.httpUtil;
 
 import org.json.JSONArray;
@@ -50,11 +52,12 @@ public class BookSortFragment extends Fragment {
     private List<BookIntro> bookIntroList = new ArrayList<>();
     private BookIntroAdapter mAdapter = new BookIntroAdapter(bookIntroList);
     private Toolbar toolbar;
-    private httpUtil http;
+    private httpUtil http = new httpUtil();;
     private static String httpUrl="http://192.168.0.109:3000/bookSort";
 
-    private static String bookTypeId = "1";// 书籍类型编号
+    private static String bookTypeId = "10";// 书籍类型编号
     private static int pageIndex = 1;// 页面序号
+    private static int pageCount =0;
     private static String pageSize = "20";// 每页数据量大小
     Handler handler = new Handler();
     boolean isLoading;
@@ -79,7 +82,7 @@ public class BookSortFragment extends Fragment {
         }
 
 //        if (getArguments() != null) {
-            loadNextData(false);
+            loadNextData(true);
 //        }
     }
 
@@ -148,13 +151,14 @@ public class BookSortFragment extends Fragment {
                 int lastVisibleItemPosition = layoutManager.findLastVisibleItemPosition();
                 if (lastVisibleItemPosition + 1 == mAdapter.getItemCount()) {
                     //Log.d("test", "loading executed lastVisibleItemPosition="+lastVisibleItemPosition);
-
+                    // TODO:如果正在下拉刷新则移除适配器列表最后加载更多或没有更多数据一项
                     boolean isRefreshing = refreshLayout.isRefreshing();
                     if (isRefreshing) {
                         mAdapter.notifyItemRemoved(mAdapter.getItemCount());
                         return;
                     }
-                    if (!isLoading) {
+                    // TODO:如果当前非加载状态且页面序号小于页面总数则进入加载状态加载数据
+                    if (!isLoading && pageIndex < pageCount) {
                         isLoading = true;
                         pageIndex++;
                         handler.postDelayed(new Runnable() {
@@ -180,8 +184,56 @@ public class BookSortFragment extends Fragment {
             public void onItemLongClick(View view, int position) {
                 Log.d("onItemLongClick", "item position = " + position);
             }
+            //TODO:重写书籍操作按钮事件
+            @Override
+            public void initPopWindow(View v){
+                bookOptionsMenu(v);
+            }
         });
         return view;
+    }
+    private void bookOptionsMenu(View v) {
+        View view = LayoutInflater.from(getContext()).inflate(R.layout.book_options, null, false);
+        Button addBookToShelf = (Button) view.findViewById(R.id.btn_add_book);
+        Button quit = (Button) view.findViewById(R.id.btn_quit);
+        //1.构造一个PopupWindow，参数依次是加载的View，宽高
+        final PopupWindow popWindow = new PopupWindow(view,
+                ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, true);
+
+        popWindow.setAnimationStyle(R.menu.pop_anim);  //设置加载动画
+
+        //这些为了点击非PopupWindow区域，PopupWindow会消失的，如果没有下面的
+        //代码的话，你会发现，当你把PopupWindow显示出来了，无论你按多少次后退键
+        //PopupWindow并不会关闭，而且退不出程序，加上下述代码可以解决这个问题
+        popWindow.setTouchable(true);
+        popWindow.setTouchInterceptor(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                return false;
+                // 这里如果返回true的话，touch事件将被拦截
+                // 拦截后 PopupWindow的onTouchEvent不被调用，这样点击外部区域无法dismiss
+            }
+        });
+        popWindow.setBackgroundDrawable(new ColorDrawable(0x00000000));    //要为popWindow设置一个背景才有效
+
+
+        //设置popupWindow显示的位置，参数依次是参照View，x轴的偏移量，y轴的偏移量
+        popWindow.showAsDropDown(v.findViewById(R.id.btn_show), 0, 0);
+
+        //设置popupWindow里的按钮的事件
+        addBookToShelf.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getContext(), "你点击了嘻嘻~", Toast.LENGTH_SHORT).show();
+            }
+        });
+        quit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getContext(), "你点击了呵呵~", Toast.LENGTH_SHORT).show();
+                popWindow.dismiss();
+            }
+        });
     }
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
@@ -195,12 +247,17 @@ public class BookSortFragment extends Fragment {
      * */
     private boolean loadNextData(boolean reFresh){
         Map<String, String> map = new HashMap<String, String>();
+        // TODO:如果是下拉刷新则重置当前页面序号
+        if(reFresh){
+            pageIndex=1;
+            pageCount = 0;
+            bookIntroList.clear();
+        }
         String index = String.valueOf(pageIndex);
         map.put("bookTypeId", bookTypeId);
         map.put("pageIndex", index);
         map.put("pageSize", pageSize);
 
-        http = new httpUtil();
         String data = http.httpPost(httpUrl, map);
 
         boolean res = parseJsonMulti(data, reFresh);
@@ -213,7 +270,10 @@ public class BookSortFragment extends Fragment {
         try {
             JSONObject status = new JSONObject(strResult);
             boolean success = status.getBoolean("success");
-            int pageCount = status.getInt("pageCount");
+            pageCount = status.getInt("pageCount");
+
+            // TODO:重置适配器中当前页面序号和页面数
+            mAdapter.setPageIndexAndCount(pageIndex, pageCount);
 
             System.out.println("success: "+success);
             System.out.println("pageCount: "+pageCount);

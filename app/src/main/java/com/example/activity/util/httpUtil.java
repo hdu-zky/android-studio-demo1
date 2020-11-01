@@ -1,10 +1,5 @@
 package com.example.activity.util;
 
-import android.os.Handler;
-import android.os.Message;
-import android.util.Log;
-import android.widget.Toast;
-
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -16,74 +11,12 @@ import java.util.Map;
 
 public class httpUtil {
 
-    private static final int GET_DATA_SUCCESS = 1;
-    private static final int NETWORK_ERROR = 2;
-    private static final int SERVER_ERROR = 3;
+//    private static final int GET_DATA_SUCCESS = 1;
+//    private static final int NETWORK_ERROR = 2;
+//    private static final int SERVER_ERROR = 3;
+//    private static final int UNKOWN_ERROR = 4;
     public httpUtil(){
 
-    }
-    //子线程不能操作UI，通过Handler设置图片
-    private Handler handler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            switch (msg.what){
-                case GET_DATA_SUCCESS:
-                    String res = msg.obj.toString();
-//                    parseJsonMulti(res);
-                    break;
-                case NETWORK_ERROR:
-//                    Toast.makeText(getContext(),"网络连接失败",Toast.LENGTH_SHORT).show();
-                    break;
-                case SERVER_ERROR:
-//                    Toast.makeText(getContext(),"服务器发生错误",Toast.LENGTH_SHORT).show();
-                    break;
-            }
-        }
-    };
-    /**
-     * 新建线程发起http post请求
-     * @param httpUrl String
-     * @param params Map<String, String>
-     */
-    public void httpPostOnThread(final String httpUrl, final String params){
-        //开启一个线程用于联网
-        new Thread() {
-            @Override
-            public void run() {
-                String result;
-                try {
-                    URL url = new URL(httpUrl);//请求地址
-                    //表示设置请求体的类型是json类型
-                    HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-                    conn.setRequestMethod("POST");
-                    //conn.setRequestProperty("Content-Type", "application/json");
-                    conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
-                    conn.setConnectTimeout(10000);//超时时间
-                    OutputStream outputStream = conn.getOutputStream();
-                    outputStream.write(URLEncoder.encode(params.toString(), "UTF-8").getBytes());
-                    outputStream.flush();
-                    outputStream.close();
-                    if(conn.getResponseCode() == HttpURLConnection.HTTP_OK){
-                        InputStream inputStream=conn.getInputStream();
-                        result = changeInputStream(inputStream, "UTF-8");
-                        //利用Message把result发给Handler
-                        Message msg = Message.obtain();
-                        msg.obj = result;
-                        msg.what = GET_DATA_SUCCESS;
-                        handler.sendMessage(msg);
-                        System.out.println(result);
-                    }else{
-                        //网络连接错误
-                        handler.sendEmptyMessage(NETWORK_ERROR);
-                    }
-                }
-                catch (IOException e){
-                    e.printStackTrace();
-                    //网络连接错误
-                    handler.sendEmptyMessage(NETWORK_ERROR);
-                }
-            }
-        }.start();
     }
     /**
      * 发起http post请求
@@ -100,7 +33,7 @@ public class httpUtil {
             conn.setRequestMethod("POST");
             //conn.setRequestProperty("Content-Type", "application/json");
             conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
-            conn.setConnectTimeout(10000);//超时时间
+            conn.setConnectTimeout(1000);//超时时间
             System.out.println("params "+params.toString());
             OutputStream outputStream = conn.getOutputStream();
             byte[] data = getRequestData(params, "UTF-8").toString().getBytes();//获得请求体
@@ -115,12 +48,12 @@ public class httpUtil {
                 System.out.println(result);
                 return result;
             }else{
-                return "{'success': false}";
+                return "HTTP_ERROR";
             }
         }
         catch (IOException e){
             e.printStackTrace();
-            return "{'success': false}";
+            return "IO_ERROR";
         }
     }
     public void httpGet(){

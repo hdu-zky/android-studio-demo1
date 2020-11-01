@@ -1,88 +1,116 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/login_bg_2"
+    android:background="#ef111111"
     android:orientation="vertical">
 
+    <!--    android:background="@drawable/login_bg_2"-->
     <LinearLayout
         android:layout_gravity="center"
         android:layout_width="320dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="66dp">
 
-<!--        <ImageView-->
-<!--            android:id="@+id/symbol"-->
-<!--            android:layout_width="60dp"-->
-<!--            android:layout_gravity="left"-->
-<!--            android:background="@drawable/logo"-->
-<!--            android:layout_height="60dp"-->
-<!--            />-->
-
-        <TextView
-            android:id="@+id/login_title"
-            android:text="@string/login_title"
-            android:textSize="24sp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColor="@color/white"
-            android:textAlignment="center"/>
+<!--        <TextView-->
+<!--            android:id="@+id/login_title"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="@string/login_title"-->
+<!--            android:textAlignment="center"-->
+<!--            android:textColor="@color/white"-->
+<!--            android:textSize="18sp" />-->
     </LinearLayout>
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/login_username_layout"
         android:layout_width="320dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginTop="60dp"
-        android:theme="@style/AppTheme">
-        <!--输入框-->
+        android:textColorHint="@color/white"
+        android:layout_marginTop="60dp">
+        <!--输入框
+        android:theme="@style/AppTheme"-->
         <EditText
             android:id="@+id/login_username"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:drawableLeft="@drawable/user"
+            android:drawableStart="@drawable/ic_user_24"
             android:drawablePadding="10dp"
-            android:paddingLeft="10dp"
+            android:paddingStart="10dp"
+            android:autofillHints="username"
+            android:inputType="textPersonName"
             android:hint="@string/login_input_acc"
             android:textColor="@color/white"
-            android:textColorHint="@color/white"
-            android:textSize="20sp" />
+            android:textSize="16sp" />
     </com.google.android.material.textfield.TextInputLayout>
+<!--    app:hintTextAppearance="@style/hintSet"
+        放在TextInputLayout内才起效果-->
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/login_pwd_layout"
         android:layout_width="320dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:theme="@style/AppTheme">
-    <!--输入框-->
-    <EditText
-        android:id="@+id/login_pwd"
-        android:layout_width="320dp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="10dp"
-        android:hint="@string/login_input_pwd"
-        android:drawablePadding="10dp"
-        android:drawableLeft="@drawable/unlock"
-        android:paddingLeft="10dp"
-        android:theme="@style/MyEditText"
-        android:textColor="@color/white"
+        android:theme="@style/AppTheme"
         android:textColorHint="@color/white"
-        android:textSize="16sp"
-        android:inputType="textPassword"/>
+        app:counterOverflowTextAppearance="@style/hintSet"
+        app:hintTextAppearance="@style/hintSet"
+        app:passwordToggleEnabled="true">
+        <!--输入框-->
+        <EditText
+            android:id="@+id/login_pwd"
+            android:layout_width="320dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp"
+            android:hint="@string/login_input_pwd"
+            android:drawablePadding="10dp"
+            android:drawableStart="@drawable/ic_lock_24"
+            android:autofillHints="password"
+            android:paddingStart="10dp"
+            android:theme="@style/MyEditText"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:inputType="textPassword"/>
     </com.google.android.material.textfield.TextInputLayout>
+    <RelativeLayout
+        android:layout_marginTop="15dp"
+        android:layout_gravity="center"
+        android:layout_width="320dp"
+        android:layout_height="wrap_content">
+        <CheckBox
+            android:id="@+id/cb_saveAccount"
+            android:checked="true"
+            android:layout_alignParentRight="true"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/cb_saveAccount"/>
+        <!--layout_weight="1" layout_width="0dp"实现均分效果-->
+        <CheckBox
+            android:id="@+id/cb_autoLogin"
+            android:checked="true"
+            android:gravity="center"
+            android:layout_alignParentLeft="true"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/cb_autoLogin" />
+    </RelativeLayout>
     <!--按钮-->
     <Button
         android:id="@+id/btn_login"
-        android:text="@string/login_btn_sign_in"
-        android:background="#1E90FF"
-        android:textSize="24sp"
-        android:textColor="@color/white"
+        android:layout_width="320dp"
+        android:layout_height="34dp"
         android:layout_gravity="center"
         android:layout_marginTop="20dp"
-        android:layout_width="320dp"
-        android:layout_height="wrap_content"/>
+        android:background="#4f1E90FF"
+        android:text="@string/login_btn_sign_in"
+        android:textColor="@color/white"
+        android:textSize="18sp"/>
 
     <RelativeLayout
         android:layout_marginTop="15dp"
