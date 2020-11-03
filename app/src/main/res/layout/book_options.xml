@@ -2,16 +2,16 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
-    android:orientation="vertical">
-
+    android:background="#ECF0F1"
+    android:orientation="vertical"
+    >
     <Button
         android:id="@+id/btn_add_book"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="5dp"
         android:text="加入书架"
-        android:textSize="18sp" />
+        android:textSize="16sp" />
 
     <Button
         android:id="@+id/btn_quit"
@@ -19,6 +19,6 @@
         android:layout_height="wrap_content"
         android:padding="5dp"
         android:text="取消"
-        android:textSize="18sp" />
+        android:textSize="16sp" />
 
 </LinearLayout>

@@ -9,6 +9,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 
+import android.os.Handler;
+import android.os.Message;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -67,7 +69,26 @@ public class UserSettingsFragment extends Fragment {
     private static String sex;
     private static String nickName;
     private static String signature;
-
+    private static final int GET_DATA_SUCCESS = 1;
+    private static final int NETWORK_ERROR = 2;
+    private static final int JSON_PARSE_ERROR = 3;
+    private Handler handler = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what){
+                case GET_DATA_SUCCESS:
+                    initView();
+                    break;
+                case JSON_PARSE_ERROR:
+                    showMessage("Json parse error !");
+                    break;
+                case NETWORK_ERROR:
+                    showMessage(msg.obj.toString());
+                    break;
+            }
+        }
+    };
     public UserSettingsFragment() {
         // Required empty public constructor
     }
@@ -88,7 +109,7 @@ public class UserSettingsFragment extends Fragment {
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
-            loadNextData(true);
+            loadNextData();
         }
     }
 
@@ -133,20 +154,8 @@ public class UserSettingsFragment extends Fragment {
                 startActivity(intent);
             }
         } );
+        initView();
         return view;
-    }
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-
-        //实现个人中心头部磨砂布局
-        blurImageView= view.findViewById(R.id.iv_blur);
-        avatarImageView = view.findViewById(R.id.iv_avatar);
-        nickNameView = view.findViewById(R.id.user_name);
-        sexView = view.findViewById(R.id.user_val);
-        nickNameView.setText(nickName);
-        sexView.setText(sex.equals("1")?"男":"女");
-        Glide.with(getContext()).load(baseUrl+headImg).bitmapTransform(new BlurTransformation(getActivity(), 25), new CenterCrop(getActivity())).into(blurImageView);
-        Glide.with(getContext()).load(baseUrl+headImg).bitmapTransform(new CropCircleTransformation(getActivity())).into(avatarImageView);
     }
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
@@ -154,28 +163,77 @@ public class UserSettingsFragment extends Fragment {
         inflater.inflate(R.menu.menu_user_settings, menu);
         super.onCreateOptionsMenu(menu, inflater);
     }
+//    public void onActivityCreated(Bundle savedInstanceState) {
+//        super.onActivityCreated(savedInstanceState);
+        //实现个人中心头部磨砂布局
+//        blurImageView= view.findViewById(R.id.iv_blur);
+//        avatarImageView = view.findViewById(R.id.iv_avatar);
+//        nickNameView = view.findViewById(R.id.user_name);
+//        sexView = view.findViewById(R.id.user_val);
+//        nickNameView.setText(nickName);
+//        sexView.setText(sex.equals("1")?"男":"女");
+//        Glide.with(getContext()).load(baseUrl+headImg).bitmapTransform(new BlurTransformation(getActivity(), 25), new CenterCrop(getActivity())).into(blurImageView);
+//        Glide.with(getContext()).load(baseUrl+headImg).bitmapTransform(new CropCircleTransformation(getActivity())).into(avatarImageView);
+//    }
+    // 初始化界面
+    private void initView(){
+        blurImageView= view.findViewById(R.id.iv_blur);
+        avatarImageView = view.findViewById(R.id.iv_avatar);
+        nickNameView = view.findViewById(R.id.user_name);
+        sexView = view.findViewById(R.id.user_val);
+        if(nickName!=null){
+            nickNameView.setText(nickName);
+        }
+        if(sex!=null){
+            sexView.setText(sex.equals("1")?"男":"女");
+        }
+        if(headImg!=null){
+            Glide.with(getContext()).load(baseUrl+headImg).bitmapTransform(new BlurTransformation(getActivity(), 25), new CenterCrop(getActivity())).into(blurImageView);
+            Glide.with(getContext()).load(baseUrl+headImg).bitmapTransform(new CropCircleTransformation(getActivity())).into(avatarImageView);
+        }
+       }
     /**
      * 发起HTTP请求获取数据并展示在recyclerView上
-     * @param reFresh 是否下拉刷新
      * */
-    private boolean loadNextData(boolean reFresh){
+    private void loadNextData(){
         Map<String, String> map = new HashMap<String, String>();
         String id = getArguments().getString(ARG_PARAM2);
         map.put("userId", id);
-        String data = http.httpPost(httpUrl, map);
+        http.sendPost(httpUrl, map, new httpUtil.HttpCallback() {
+            @Override
+            public void onFinish(String response) {
+                Message msg = new Message();
+                int res = parseJsonMulti(response);
+                if(res== -1){
+                    msg.what = JSON_PARSE_ERROR;
+                    handler.sendMessage(msg);
+                }else if(res == 0){
+                    msg.what = NETWORK_ERROR;
+                    msg.obj = "获取数据失败";
+                    handler.sendMessage(msg);
+                }else if(res ==1){
+                    msg.what = GET_DATA_SUCCESS;
+                    handler.sendMessage(msg);
+                }
+            }
+            @Override
+            public void onError(String err) {
+                Message msg = new Message();
+                msg.what = NETWORK_ERROR;
+                msg.obj = err;
+                handler.sendMessage(msg);
+            }
+        });
 
-        boolean res = parseJsonMulti(data, reFresh);
-
-        return res;
     }
     // TODO:解析多个数据的Json
-    private boolean parseJsonMulti(String strResult, boolean reFresh) {
+    private int parseJsonMulti(String strResult) {
         try {
             JSONObject status = new JSONObject(strResult);
             boolean success = status.getBoolean("success");
             System.out.println("success: "+success);
             if(!success){
-                return false;
+                return 0;
             }else{
                 JSONObject jsonObj = status.getJSONObject("data");
                 headImg = jsonObj.getString("headImg");
@@ -183,11 +241,14 @@ public class UserSettingsFragment extends Fragment {
                 sex = jsonObj.getString("sex");
                 signature = jsonObj.getString("signature");
             }
-            return true;
+            return 1;
         } catch (JSONException e) {
             System.out.println("Json parse error !");
             e.printStackTrace();
-            return false;
+            return -1;
         }
+    }
+    private void showMessage(String message) {
+        Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
     }
 }

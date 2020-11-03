@@ -200,7 +200,7 @@ public class BookSortFragment extends Fragment {
         final PopupWindow popWindow = new PopupWindow(view,
                 ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, true);
 
-        popWindow.setAnimationStyle(R.menu.pop_anim);  //设置加载动画
+        popWindow.setAnimationStyle(R.anim.pop_anim);  //设置加载动画
 
         //这些为了点击非PopupWindow区域，PopupWindow会消失的，如果没有下面的
         //代码的话，你会发现，当你把PopupWindow显示出来了，无论你按多少次后退键

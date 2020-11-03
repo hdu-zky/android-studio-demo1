@@ -46,8 +46,8 @@ public class IndexActivity extends AppCompatActivity implements BottomNavigation
         setContentView(R.layout.activity_index);
 
         mContextSp = this.getSharedPreferences( "userInfo", Context.MODE_PRIVATE );
-        userId = mContextSp.getString( "userId", "-1" );
-        Log.e("userId"," "+userId);
+        userId = mContextSp.getString( "userId", " " );
+//        Log.e("userId"," "+userId);
         mBottomNavigationBar = findViewById(R.id.bottom_navigation_bar);
         initBottomNavBar();
 
@@ -58,35 +58,6 @@ public class IndexActivity extends AppCompatActivity implements BottomNavigation
         mBottomNavigationBar.setTabSelectedListener(this);
         setDefaultFragment();
 
-//        TabLayout mTabLayout = findViewById(R.id.tab_layout);
-//        ViewPager viewPager = findViewById(R.id.view_pager);
-//
-//        //添加tab
-//        for (int i = 0; i < tabTitle.length; i++) {
-//            mTabLayout.addTab(mTabLayout.newTab().setText(tabTitle[i]));
-//            BookIntroFragmentList.add(BookIntroFragment.newInstance(tabTitle[i]));
-//        }
-//        viewPager.setAdapter(new FragmentPagerAdapter(getSupportFragmentManager(), FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
-//            @NonNull
-//            @Override
-//            public Fragment getItem(int position) {
-//                return BookIntroFragmentList.get(position);
-//            }
-//
-//            @Override
-//            public int getCount() {
-//                return BookIntroFragmentList.size();
-//            }
-//
-//            @Nullable
-//            @Override
-//            public CharSequence getPageTitle(int position) {
-//                return tabTitle[position];
-//            }
-//        });
-//
-//        //设置TabLayout和ViewPager联动
-//        mTabLayout.setupWithViewPager(viewPager,false);
     }
     private void initBottomNavBar() {
         // TODO 设置模式
@@ -181,7 +152,6 @@ public class IndexActivity extends AppCompatActivity implements BottomNavigation
                 break;
         }
         // 事务提交
-        mTransaction.addToBackStack(null);
         mTransaction.commit();
     }
 
@@ -209,7 +179,7 @@ public class IndexActivity extends AppCompatActivity implements BottomNavigation
             transaction.hide(mUserSettingsFragment);
         }
     }
-
+    //设置默认打开的碎片
     private void setDefaultFragment() {
         mBookRankFragment = BookRankFragment.newInstance("1",userId);
         mManager = getSupportFragmentManager();

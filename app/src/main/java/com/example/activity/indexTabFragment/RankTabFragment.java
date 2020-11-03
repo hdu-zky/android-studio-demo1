@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.os.Handler;
+import android.os.Message;
 import android.os.StrictMode;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -59,14 +60,34 @@ public class  RankTabFragment extends Fragment {
     private static int pageIndex =1;
     private static int pageCount =0;
     private static String userId;
-    Handler handler = new Handler();
+    private static final int GET_DATA_SUCCESS = 1;
+    private static final int NETWORK_ERROR = 2;
+    private static final int JSON_PARSE_ERROR = 3;
+    private  Handler handler = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what){
+                case GET_DATA_SUCCESS:
+                    // TODO:重置适配器中当前页面序号和页面数
+                    mAdapter.setPageIndexAndCount(pageIndex, pageCount);
+                    mAdapter.notifyDataSetChanged();
+                    break;
+                case JSON_PARSE_ERROR:
+                    showMessage("Json parse error !");
+                    break;
+                case NETWORK_ERROR:
+                    showMessage(msg.obj.toString());
+                    break;
+            }
+        }
+    };
     boolean isLoading;
     // Fragment管理器，和执行器
     private FragmentManager mManager;
     private FragmentTransaction mTransaction;
     private static RankTabFragment fragment;
     private BookDetailFragment bookDetailFragment;
-
     public RankTabFragment() {
         // Required empty public constructor
     }
@@ -77,7 +98,6 @@ public class  RankTabFragment extends Fragment {
         args.putString("label", label);
         args.putString("SelectType", strType);
         args.putString("userId", uId);
-        Log.d("RankTabFragment ","newInstance "+uId);
         userId = uId;
         RankTabFragment fragment = new RankTabFragment();
         fragment.setArguments(args);
@@ -114,13 +134,13 @@ public class  RankTabFragment extends Fragment {
         refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                handler.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
+//                handler.postDelayed(new Runnable() {
+//                    @Override
+//                    public void run() {
                         loadNextData(true);
                         refreshLayout.setRefreshing(false);
-                    }
-                },2000);
+//                    }
+//                },2000);
             }
         });
 
@@ -135,7 +155,7 @@ public class  RankTabFragment extends Fragment {
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
-                Log.d("test", "StateChanged = " + newState);
+//                Log.d("test", "StateChanged = " + newState);
             }
 
             @Override
@@ -157,14 +177,17 @@ public class  RankTabFragment extends Fragment {
                     if (!isLoading && pageIndex < pageCount) {
                         isLoading = true;
                         pageIndex++;
-                        handler.postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-                                loadNextData(false);
-                                Log.d("test", "load more completed");
-                                isLoading = false;
-                            }
-                        }, 1000);
+
+                        loadNextData(false);
+
+                        Log.d("test", "load more completed");
+                        isLoading = false;
+
+//                        handler.postDelayed(new Runnable() {
+//                            @Override
+//                            public void run() {
+//                            }
+//                        }, 1000);
                     }
                 }
             }
@@ -176,24 +199,30 @@ public class  RankTabFragment extends Fragment {
                 //根据点击位置从适配器中取得对应数据对象
                 BookIntro bookIntro = mAdapter.getItem(position);
                 //打开书籍详细页面
-                Intent intent = new Intent(getContext(), BookDetailActivity.class);
-
-                intent.putExtra("imageSrc", bookIntro.getImageSrc());
-                intent.putExtra("bookName", bookIntro.getBookName());
-                intent.putExtra("bookAuthor", bookIntro.getBookAuthor());
-                intent.putExtra("bookTypeName", bookIntro.getBookTypeName());
-                intent.putExtra("bookId", String.valueOf(bookIntro.getBookId()));
-                intent.putExtra("bookIntroduction", bookIntro.getBookIntroduction());
-                startActivity(intent);
-//                mTransaction = mManager.beginTransaction();
-//                //根据数据对象初始化书籍细节信息页面并向容器加入该碎片
-//                bookDetailFragment = BookDetailFragment.newInstance(bookIntro);
-//                mTransaction.replace(R.id.index_content,bookDetailFragment);
-//                //加入返回栈
-//                mTransaction.addToBackStack(null);
-//                // 设置动画效果
-//                mTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-//                mTransaction.commit();
+//                Intent intent = new Intent(getContext(), BookDetailActivity.class);
+//
+//                intent.putExtra("imageSrc", bookIntro.getImageSrc());
+//                intent.putExtra("bookName", bookIntro.getBookName());
+//                intent.putExtra("bookAuthor", bookIntro.getBookAuthor());
+//                intent.putExtra("bookTypeName", bookIntro.getBookTypeName());
+//                intent.putExtra("bookId", String.valueOf(bookIntro.getBookId()));
+//                intent.putExtra("bookIntroduction", bookIntro.getBookIntroduction());
+//                startActivity(intent);
+                mTransaction = mManager.beginTransaction();
+                //根据数据对象初始化书籍细节信息页面并向容器加入该碎片
+                bookDetailFragment = BookDetailFragment.newInstance(bookIntro);
+                mTransaction.replace(R.id.index_content,bookDetailFragment)
+                        .setCustomAnimations(
+                            R.anim.slide_right_in,
+//                            R.anim.slide_left_out,
+//                            R.anim.slide_left_in,
+                            R.anim.slide_right_out
+                        );
+                //加入返回栈
+                mTransaction.addToBackStack(null);
+                // 设置动画效果
+                mTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+                mTransaction.commit();
             }
             //TODO:重写书籍操作按钮事件
             @Override
@@ -220,7 +249,7 @@ public class  RankTabFragment extends Fragment {
         final PopupWindow popWindow = new PopupWindow(view,
                 ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, true);
 
-        popWindow.setAnimationStyle(R.menu.pop_anim);  //设置加载动画
+        popWindow.setAnimationStyle(R.anim.pop_anim);  //设置加载动画
 
         //这些为了点击非PopupWindow区域，PopupWindow会消失的，如果没有下面的
         //代码的话，你会发现，当你把PopupWindow显示出来了，无论你按多少次后退键
@@ -275,7 +304,7 @@ public class  RankTabFragment extends Fragment {
      * 发起HTTP请求获取数据并展示在recyclerView上
      * @param reFresh 是否下拉刷新
      * */
-    private boolean loadNextData(boolean reFresh){
+    private void loadNextData(boolean reFresh){
         Map<String, String> map = new HashMap<String, String>();
         String type = getArguments().getString("SelectType");
         String index = String.valueOf(pageIndex);
@@ -285,28 +314,63 @@ public class  RankTabFragment extends Fragment {
             pageIndex = 1;
             pageCount = 0;
             bookIntroList.clear();
-            String data0 = http.httpPost(httpUrl[1], map);
-            pageCount = parseJsonSingle(data0);
+            http.sendPost(httpUrl[1], map, new httpUtil.HttpCallback() {
+                @Override
+                public void onFinish(String response) {
+                    int res = parseJsonSingle(response);
+                    Message msg = new Message();
+                    if(res == -1){
+                        msg.what = JSON_PARSE_ERROR;
+                        handler.sendMessage(msg);
+                    }else{
+                        pageCount = res;
+                        msg.what = GET_DATA_SUCCESS;
+                        handler.sendMessage(msg);
+                    }
+                }
+                @Override
+                public void onError(String err) {
+                    Message msg = new Message();
+                    msg.what = NETWORK_ERROR;
+                    msg.obj = err;
+                    handler.sendMessage(msg);
+                }
+            });
         }
         map.put("pageIndex", index);
-        String data = http.httpPost(httpUrl[0], map);
-
-        boolean res = parseJsonMulti(data, reFresh);
-        // TODO:重置适配器中当前页面序号和页面数
-        mAdapter.setPageIndexAndCount(pageIndex, pageCount);
-        mAdapter.notifyDataSetChanged();
-
-        return res;
+        // TODO:根据当前页面序号和选择类型发起请求数据
+        http.sendPost(httpUrl[0], map, new httpUtil.HttpCallback() {
+            @Override
+            public void onFinish(String response) {
+                Message msg = new Message();
+                boolean res = parseJsonMulti(response);
+                if(!res){
+                    msg.what = JSON_PARSE_ERROR;
+                    handler.sendMessage(msg);
+                }else {
+                    msg.what = GET_DATA_SUCCESS;
+                    handler.sendMessage(msg);
+                }
+            }
+            @Override
+            public void onError(String err) {
+                Message msg = new Message();
+                msg.what = NETWORK_ERROR;
+                msg.obj = err;
+                handler.sendMessage(msg);
+            }
+        });
+    }
+    private void showMessage(String message) {
+        Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
     }
     // TODO:解析多个数据的Json
-    private boolean parseJsonMulti(String strResult, boolean reFresh) {
+    private boolean parseJsonMulti(String strResult) {
         try {
             JSONObject status = new JSONObject(strResult);
             boolean success = status.getBoolean("success");
             System.out.println("success: "+success);
             JSONArray jsonArray = status.getJSONArray("data");
-            if(reFresh){
-            }
             for(int i = 0; i < jsonArray.length() ; i++){
                 JSONObject jsonObj = (JSONObject)jsonArray.get(i);
 
@@ -341,7 +405,7 @@ public class  RankTabFragment extends Fragment {
         }catch (JSONException e){
             System.out.println("Json parse error !");
             e.printStackTrace();
-            return 0;
+            return -1;
         }
     }
     // TODO:解析单层数据的Json

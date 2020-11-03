@@ -81,7 +81,7 @@
         android:layout_height="wrap_content">
         <CheckBox
             android:id="@+id/cb_saveAccount"
-            android:checked="true"
+            android:checked="false"
             android:layout_alignParentRight="true"
             android:textColor="@color/white"
             android:textSize="16sp"
@@ -91,7 +91,7 @@
         <!--layout_weight="1" layout_width="0dp"实现均分效果-->
         <CheckBox
             android:id="@+id/cb_autoLogin"
-            android:checked="true"
+            android:checked="false"
             android:gravity="center"
             android:layout_alignParentLeft="true"
             android:textColor="@color/white"

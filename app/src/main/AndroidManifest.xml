@@ -16,14 +16,15 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar"
         android:usesCleartextTraffic="true">
-        <activity android:name=".activity.BookDetailActivity" android:launchMode="singleTask"></activity>
-        <activity android:name=".activity.MainActivity" android:launchMode="singleTask"></activity>
-        <activity android:name=".activity.IndexActivity" android:launchMode="singleTask">
+        <activity android:name=".activity.MainActivity" android:launchMode="singleTask">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            </intent-filter></activity>
+        <activity android:name=".activity.BookDetailActivity" android:launchMode="singleTask">
+        </activity>
+        <activity android:name=".activity.IndexActivity" android:launchMode="singleTask">
         </activity>
     </application>
 

@@ -1,8 +1,12 @@
 package com.example.activity.util;
 
+import android.os.Looper;
+
+import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -15,8 +19,76 @@ public class httpUtil {
 //    private static final int NETWORK_ERROR = 2;
 //    private static final int SERVER_ERROR = 3;
 //    private static final int UNKOWN_ERROR = 4;
+    //供调用重写接口
+    public interface HttpCallback{
+        void onFinish(String response);
+        void onError(String err);
+    }
     public httpUtil(){
 
+    }
+    /**
+     * 开启新线程发起http post请求
+     * @param httpUrl String
+     * @param params Map<String, String>
+     * @param callback Map<String, String>
+     */
+    public static void sendPost(final String httpUrl, final Map<String, String> params, final HttpCallback callback){
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                HttpURLConnection conn = null;
+                Looper.prepare();//增加部分
+                try{
+                    URL url = new URL(httpUrl);
+                    conn = (HttpURLConnection) url.openConnection();
+                    conn.setRequestMethod("POST");
+                    conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+                    conn.setConnectTimeout(1000);//超时时间
+//                    conn.setReadTimeout(1000);
+//                    conn.setDoInput(true);
+//                    conn.setDoOutput(true);
+
+                    System.out.println("params "+params.toString());
+                    OutputStream outputStream = conn.getOutputStream();
+                    byte[] data = getRequestData(params, "UTF-8").toString().getBytes();//获得请求体
+                    outputStream.write(data);
+                    outputStream.flush();
+                    outputStream.close();
+                    // TODO:如果返回成功则读取数据
+                    if(conn.getResponseCode() == HttpURLConnection.HTTP_OK){
+                        InputStream inputStream =conn.getInputStream();
+                        BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+                        StringBuilder response = new StringBuilder();
+                        String line;
+                        while ((line = reader.readLine()) != null){
+                            response.append(line);
+                        }
+//                        String response = changeInputStream(inputStream, "UTF-8");
+                        System.out.println("response "+response.toString());
+                        if (callback != null){
+                            callback.onFinish(response.toString());
+                        }
+                    }else{
+                        if (callback != null){
+                            callback.onError("获取数据失败,请检查网络连接");
+                        }
+                    }
+                }catch (Exception e){
+                    e.printStackTrace();
+                    if (callback != null){
+                        callback.onError(e.getMessage());
+                    }
+                }catch (UnknownError e){
+                    e.printStackTrace();
+                }finally{
+                    if (conn != null){
+                        conn.disconnect();
+                    }
+                }
+                Looper.loop();
+            }
+        }).start();
     }
     /**
      * 发起http post请求

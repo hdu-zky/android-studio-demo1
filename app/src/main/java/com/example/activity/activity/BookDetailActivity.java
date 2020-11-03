@@ -128,7 +128,7 @@ public class BookDetailActivity extends AppCompatActivity {
         }
         //根据数据模型初始化界面
         Glide.with(this).load(imageSrc).into(mImageView);
-        Glide.with(this).load(imageSrc).bitmapTransform(new BlurTransformation(this, 25), new CenterCrop(this)).into(mBgImageView);
+//        Glide.with(this).load(imageSrc).bitmapTransform(new BlurTransformation(this, 25), new CenterCrop(this)).into(mBgImageView);
 
         mBookNameView.setText(bookName);
         mAuthorNameView.setText(bookAuthor);

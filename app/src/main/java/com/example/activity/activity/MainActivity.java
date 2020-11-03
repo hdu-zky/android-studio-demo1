@@ -47,18 +47,59 @@ public class MainActivity extends AppCompatActivity {
 
     private httpUtil http = new httpUtil();
     private static String httpUrl="http://192.168.0.109:3000/login";
-//    private static String headImg;
-//    private static String sex;
-//    private static String nickName;
-//    private static String signature;
-
+    //取消登录信号
+    private static final int QUIT_LOGIN = 0;
+    //获取用户信息成功信号
     private static final int GET_DATA_SUCCESS = 1;
+    //网络连接失败
     private static final int NETWORK_ERROR = 2;
-    private static final int SERVER_ERROR = 3;
-    private static final int UNKOWN_ERROR = 4;
-    private static final int JSONPARSE_ERROR = 5;
-    private static final int QUIT_LOGIN = 6;
-    private static int parseResult;
+    //解析json数据失败
+    private static final int JSON_PARSE_ERROR = 3;
+    //获取用户信息失败
+    private static final int LOGIN_FAIL = 4;
+    //是否自动登录
+    private static boolean autoLogin;
+    private Handler handler = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what){
+                //取消自动登录则置为假
+                case QUIT_LOGIN:
+                    autoLogin = false;
+                    break;
+                case GET_DATA_SUCCESS:
+                    showMessage("登录成功");
+                    // 如果是自动登录则不重复保存相关信息否则保存
+                    if(!autoLogin){
+                        SharedPreferences.Editor editor = mContextSp.edit();
+                        editor.putString( "userId", userName );
+                        editor.putBoolean("saveAccount", mSaveAccount.isChecked());
+                        editor.putBoolean("autoLogin", mAutoLogin.isChecked());
+                        //登录成功和记住密码框为选中状态才保存用户密码
+                        if(mSaveAccount.isChecked()) {
+                            //记住用户名、密码
+                            editor.putString( "password", password);
+                            editor.commit();
+                        }
+                        editor.apply();
+                    }
+                    //打开主页面
+                    Intent index = new Intent(MainActivity.this, IndexActivity.class);
+                    startActivity(index);
+                    break;
+                case JSON_PARSE_ERROR:
+                    showMessage("Json parse error !");
+                    break;
+                case NETWORK_ERROR:
+                    showMessage(msg.obj.toString());
+                    break;
+                case LOGIN_FAIL:
+                    showMessage(getString(R.string.error_login));
+                    break;
+            }
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,13 +143,18 @@ public class MainActivity extends AppCompatActivity {
             if(mContextSp.getBoolean("autoLogin", false)) {
                 // TODO:设置默认是自动登录状态
                 mAutoLogin.setChecked(true);
-                showWaitingDialog();
-//                handler.postDelayed(new Runnable() {
-//                    @Override
-//                    public void run() {
-                        login(true);
-//                    }
-//                },3000);
+                autoLogin = true;
+                //TODO:延迟3秒等用户点击取消自动登录
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        showWaitingDialog();
+                    }
+                },3000);
+                //TODO:如果用户未点击取消自动登录则调用登录逻辑
+                if(autoLogin){
+                    login(true);
+                }
             }
         }
         //监听自动登录点击事件
@@ -149,29 +195,7 @@ public class MainActivity extends AppCompatActivity {
             showMessage(getString(R.string.error_pwd));
             return;
         }
-        int res = loadNextData();
-        if(res == GET_DATA_SUCCESS){
-            showMessage("登录成功");
-            // 如果是自动登录则不重复保存相关信息否则保存
-            if(!isAutoLogin){
-                SharedPreferences.Editor editor = mContextSp.edit();
-                editor.putString( "userId", userName );
-                editor.putBoolean("saveAccount", mSaveAccount.isChecked());
-                editor.putBoolean("autoLogin", mAutoLogin.isChecked());
-                //登录成功和记住密码框为选中状态才保存用户密码
-                if(mSaveAccount.isChecked()) {
-                    //记住用户名、密码
-                    editor.putString( "password", password);
-                    editor.commit();
-                }
-                editor.apply();
-            }
-            //打开主页面
-            Intent index = new Intent(MainActivity.this, IndexActivity.class);
-            startActivity(index);
-        }else {
-            showMessage(getString(R.string.error_login));
-        }
+        loadNextData();
     }
     //自动登录界面
     private void showWaitingDialog() {
@@ -184,44 +208,56 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         // TODO:发送终止自动登录信号
-                        //handler.sendEmptyMessage(QUIT_LOGIN);
+                        handler.sendEmptyMessage(QUIT_LOGIN);
                     }
                 });
         // 显示
-        waitingDialog.setCancelable(false);
+        waitingDialog.setCancelable(true);
         waitingDialog.show();
     }
     /**
      * 发起HTTP请求获取数据并展示在recyclerView上
      * */
-    private int loadNextData(){
+    private void loadNextData(){
         Map<String, String> map = new HashMap<String, String>();
         map.put("name", userName);
         map.put("pwd", password);
-        String response = http.httpPost(httpUrl, map);
-        System.out.println(response);
-        int parseResult = parseJsonMulti(response);
-        return parseResult;
+        http.sendPost(httpUrl, map, new httpUtil.HttpCallback() {
+            @Override
+            public void onFinish(String response) {
+                System.out.println(response);
+
+                parseJsonMulti(response);
+            }
+
+            @Override
+            public void onError(String err) {
+                Message msg = new Message();
+                msg.what = NETWORK_ERROR;
+                msg.obj = err;
+                handler.sendMessage(msg);
+            }
+        });
     }
     // TODO:解析多个数据的Json
-    private int parseJsonMulti(String strResult) {
+    private void parseJsonMulti(String strResult) {
+        Message msg = new Message();
         try {
             JSONObject status = new JSONObject(strResult);
             boolean success = status.getBoolean("success");
             System.out.println("success: "+success);
             if(!success){
-                return 0;
+                msg.what = LOGIN_FAIL;
+                handler.sendMessage(msg);
+            }else{
+                msg.what = GET_DATA_SUCCESS;
+                handler.sendMessage(msg);
             }
-//            else{
-//                JSONObject jsonObj = status.getJSONObject("data");
-//                headImg = jsonObj.getString("headImg");
-//                nickName = jsonObj.getString("nickName");
-//            }
-            return GET_DATA_SUCCESS;
         } catch (JSONException e) {
             System.out.println("Json parse error !");
             e.printStackTrace();
-            return JSONPARSE_ERROR;
+            msg.what = JSON_PARSE_ERROR;
+            handler.sendMessage(msg);
         }
     }
     /**
