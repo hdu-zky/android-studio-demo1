@@ -7,9 +7,11 @@ import androidx.fragment.app.FragmentTransaction;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.Window;
+import android.widget.Toast;
 
 import com.ashokvarma.bottomnavigation.BottomNavigationBar;
 import com.ashokvarma.bottomnavigation.BottomNavigationItem;
@@ -22,9 +24,7 @@ import com.example.activity.indexTabFragment.BookSortFragment;
 import com.example.activity.indexTabFragment.UserSettingsFragment;
 
 public class IndexActivity extends AppCompatActivity implements BottomNavigationBar.OnTabSelectedListener{
-//    private String[] tabTitle = {"tab1", "tab2", "tab3", "tab4", "tab5", "tab6"};
-//    private List<BookIntroFragment> BookIntroFragmentList = new ArrayList<>();
-//    private List<BookIntro> bookIntroList = new ArrayList<>();
+    private Long firstBackTime=(long)0;
     private BottomNavigationBar mBottomNavigationBar;
     // Fragment管理器，和执行器
     private FragmentManager mManager;
@@ -38,7 +38,6 @@ public class IndexActivity extends AppCompatActivity implements BottomNavigation
     private int lastSelectedPosition;
     SharedPreferences mContextSp;
     private String userId;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -186,5 +185,17 @@ public class IndexActivity extends AppCompatActivity implements BottomNavigation
         mTransaction = mManager.beginTransaction();
         mTransaction.add(R.id.fl_content, mBookRankFragment);
         mTransaction.commit();
+    }
+    @Override
+    public void onBackPressed() {
+        if(System.currentTimeMillis()-firstBackTime>2000){
+            Toast.makeText(this, "再次点击返回键退出", Toast.LENGTH_SHORT).show();
+            firstBackTime=System.currentTimeMillis();
+        }else{
+            super.onBackPressed();
+            //停止进程
+            //其中System.exit(0)代表进程正常退出  System.exit(1)代表程序异常退出
+            System.exit(0);
+        }
     }
 }

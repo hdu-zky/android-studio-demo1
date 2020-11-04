@@ -30,5 +30,6 @@
     <color name="tabInActive">#8a8a8a</color>
     <color name="gray">#A9A9A9</color>
     <color name="transparent">#00000000</color>
+    <color name="buttonColor">#2A7CE7</color>
 
 </resources>

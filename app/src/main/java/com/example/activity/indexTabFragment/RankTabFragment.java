@@ -210,18 +210,17 @@ public class  RankTabFragment extends Fragment {
 //                startActivity(intent);
                 mTransaction = mManager.beginTransaction();
                 //根据数据对象初始化书籍细节信息页面并向容器加入该碎片
-                bookDetailFragment = BookDetailFragment.newInstance(bookIntro);
-                mTransaction.replace(R.id.index_content,bookDetailFragment)
-                        .setCustomAnimations(
-                            R.anim.slide_right_in,
-//                            R.anim.slide_left_out,
-//                            R.anim.slide_left_in,
-                            R.anim.slide_right_out
-                        );
+                bookDetailFragment = BookDetailFragment.newInstance(bookIntro, userId);
+                // 设置动画效果
+                //mTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+                mTransaction.setCustomAnimations(
+                        R.anim.slide_right_in,
+                        R.anim.slide_left_out,
+                        R.anim.slide_left_in,
+                        R.anim.slide_right_out
+                    ).replace(R.id.index_content,bookDetailFragment);
                 //加入返回栈
                 mTransaction.addToBackStack(null);
-                // 设置动画效果
-                mTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
                 mTransaction.commit();
             }
             //TODO:重写书籍操作按钮事件
@@ -235,11 +234,6 @@ public class  RankTabFragment extends Fragment {
             }
         });
         return rootView;
-    }
-    private void hideFragment(FragmentTransaction transaction) {
-        if (bookDetailFragment != null) {
-            transaction.hide(bookDetailFragment);
-        }
     }
     private void bookOptionsMenu(View itemView) {
         View view = LayoutInflater.from(getContext()).inflate(R.layout.book_options, null, false);

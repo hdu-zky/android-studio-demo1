@@ -153,7 +153,7 @@
             </RelativeLayout>
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="800dp"
+                android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:layout_marginTop="-16dp"
                 android:background="@drawable/corner_radius">
@@ -169,20 +169,23 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:background="#ccc"
-                        android:padding="3dp">
+                        android:padding="3dp"
+                        android:elevation="5dp"
+                        android:background="@drawable/corner_radius_no_bg">
                         <TextView
                             android:id="@+id/bd_intro_span"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginStart="6dp"
                             android:textSize="16sp"
-                            android:textColor="@color/colorBlack"
+                            android:textColor="@color/white"
                             android:text="@string/detail_intro"/>
                     </LinearLayout>
                     <TextView
                         android:id="@+id/bd_intro"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:paddingTop="6dp"
                         android:textSize="14sp"
                         android:minLines="3"/>
                 </LinearLayout>
@@ -197,65 +200,199 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:background="#ccc"
+                        android:padding="3dp"
+                        android:elevation="5dp"
+                        android:background="@drawable/corner_radius_no_bg">
+                        <TextView
+                            android:id="@+id/bd_latest_catalog_span"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="6dp"
+                            android:textColor="@color/white"
+                            android:textSize="16sp"
+                            android:text="@string/detail_latest_catalog"/>
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:minHeight="180dp"
+                        android:paddingTop="6dp">
+                        <ListView
+                            android:id="@+id/bd_latest_chapter"
+                            android:fastScrollEnabled="false"
+                            android:layout_width="match_parent"
+                            android:layout_height="180dp"
+                            android:orientation="vertical"
+                            android:divider="#ECECEC"
+                            android:dividerHeight="1dp"/>
+                    </LinearLayout>
+                </LinearLayout>
+                <!-- TODO:书籍目录栏 -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginTop="6dp">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:elevation="5dp"
+                        android:background="@drawable/corner_radius_no_bg"
                         android:padding="3dp">
                         <TextView
                             android:id="@+id/bd_catalog_span"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textColor="@color/colorBlack"
+                            android:layout_marginStart="6dp"
+                            android:textColor="@color/white"
                             android:textSize="16sp"
                             android:text="@string/detail_catalog"/>
                     </LinearLayout>
-                    <TextView
-                        android:id="@+id/bd_catalog"
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingTop="6dp">
+                        <ListView
+                            android:id="@+id/bd_total_chapter"
+                            android:fastScrollEnabled="false"
+                            android:layout_width="match_parent"
+                            android:layout_height="700dp"
+                            android:orientation="vertical"
+                            android:divider="#ECECEC"
+                            android:dividerHeight="1dp"/>
+                    </LinearLayout>
+                </LinearLayout>
+
+            </LinearLayout>
+            <!-- TODO:页面跳转选择器 -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="60dp"
+                android:background="#eee">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:padding="6dp"
+                    android:orientation="horizontal"
+                    android:baselineAligned="false">
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1">
+                        <!-- TODO:上一页按钮 -->
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="start">
+                            <Button
+                                android:id="@+id/bd_prev_page"
+                                android:layout_width="86dp"
+                                android:layout_height="34dp"
+                                android:background="@drawable/corner_radius_button_page"
+                                android:paddingStart="8dp"
+                                android:paddingEnd="8dp"
+                                android:text="@string/detail_prev_page"
+                                android:textAlignment="center"
+                                android:textColor="@color/white"
+                                android:textSize="16sp" />
+                        </LinearLayout>
+                        <!-- TODO:页面选择器 -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="2dp"
+                            android:layout_marginEnd="2dp">
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:background="@drawable/corner_radius_selector"
+                                android:paddingStart="8dp"
+                                android:paddingTop="6dp"
+                                android:paddingBottom="6dp"
+                                android:textSize="16sp"
+                                android:text=""/>
+                        </LinearLayout>
+                    </LinearLayout>
+                    <!-- TODO:下一页按钮 -->
+                    <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textSize="14sp"/>
+                        android:layout_gravity="end">
+                        <Button
+                            android:id="@+id/bd_next_page"
+                            android:layout_width="86dp"
+                            android:layout_height="34dp"
+                            android:text="@string/detail_next_page"
+                            android:textSize="16sp"
+                            android:paddingStart="8dp"
+                            android:paddingEnd="8dp"
+                            android:textAlignment="center"
+                            android:background="@drawable/corner_radius_button_page"
+                            android:textColor="@color/white"/>
+                    </LinearLayout>
                 </LinearLayout>
             </LinearLayout>
-
         </LinearLayout>
     </ScrollView >
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
-
+    <!-- TODO:固定在底部的按钮 -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#eee"
         android:gravity="bottom">
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingStart="16dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
             android:padding="6dp"
-            android:layout_gravity="center">
-
-            <TextView
-                android:layout_width="166dp"
+            android:orientation="horizontal"
+            android:baselineAligned="false">
+        <!-- TODO:添加到书架按钮 -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_gravity="start">
+            <Button
+                android:id="@+id/bd_add_shelf"
+                android:layout_width="120dp"
                 android:layout_height="wrap_content"
-                android:text="开始阅读"
+                android:text="@string/detail_add"
                 android:textSize="16sp"
-                android:paddingStart="24dp"
-                android:paddingEnd="24dp"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
                 android:paddingTop="8dp"
                 android:paddingBottom="8dp"
-                android:layout_gravity="center"
+                android:textAlignment="center"
+                android:background="@drawable/corner_radius_button_2"
+                android:textColor="@color/white"/>
+        </LinearLayout>
+        <!-- TODO:开始阅读按钮 -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end">
+            <Button
+                android:id="@+id/bd_start_read"
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:text="@string/detail_start_read"
+                android:textSize="16sp"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp"
                 android:textAlignment="center"
                 android:background="@drawable/corner_radius_button"
                 android:textColor="@color/white"/>
-            <TextView
-                android:layout_width="166dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:text="加入书架"
-                android:textSize="16sp"
-                android:paddingStart="24dp"
-                android:paddingEnd="24dp"
-                android:paddingTop="8dp"
-                android:paddingBottom="8dp"
-                android:textAlignment="center"
-                android:textColor="@color/colorBlack"/>
+        </LinearLayout>
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>

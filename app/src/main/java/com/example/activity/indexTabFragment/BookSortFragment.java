@@ -6,6 +6,8 @@ import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -62,12 +64,20 @@ public class BookSortFragment extends Fragment {
     Handler handler = new Handler();
     boolean isLoading;
 
+    private static String userId;
+    // Fragment管理器，和执行器
+    private FragmentManager mManager;
+    private FragmentTransaction mTransaction;
+    private BookDetailFragment bookDetailFragment;
     public BookSortFragment() {
         // Required empty public constructor
     }
 
-    public static BookSortFragment newInstance(String param1, String param2) {
+    public static BookSortFragment newInstance(String param1, String uId) {
         BookSortFragment fragment = new BookSortFragment();
+        Bundle args = new Bundle();
+        args.putString("userId", uId);
+        userId = uId;
         return fragment;
     }
 
@@ -75,6 +85,7 @@ public class BookSortFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        mManager= getActivity().getSupportFragmentManager();
         // TODO:使sdk高版本的仍可以在主进程中进行http请求
         if (android.os.Build.VERSION.SDK_INT > 9) {
             StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
@@ -177,7 +188,22 @@ public class BookSortFragment extends Fragment {
         mAdapter.setOnItemClickListener(new BookIntroAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                Log.d("test", "item position = " + position);
+                //根据点击位置从适配器中取得对应数据对象
+                BookIntro bookIntro = mAdapter.getItem(position);
+                mTransaction = mManager.beginTransaction();
+                //根据数据对象初始化书籍细节信息页面并向容器加入该碎片
+                bookDetailFragment = BookDetailFragment.newInstance(bookIntro, userId);
+                // 设置动画效果
+                //mTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+                mTransaction.setCustomAnimations(
+                        R.anim.slide_right_in,
+                        R.anim.slide_left_out,
+                        R.anim.slide_left_in,
+                        R.anim.slide_right_out
+                ).replace(R.id.index_content,bookDetailFragment);
+                //加入返回栈
+                mTransaction.addToBackStack(null);
+                mTransaction.commit();
             }
 
             @Override
