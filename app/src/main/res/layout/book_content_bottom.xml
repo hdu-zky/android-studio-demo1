@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- TODO:页面跳转选择器 -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/bc_page_select"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:baselineAligned="false"
+    android:padding="10dp"
+    android:background="@color/colorBlack">
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1">
+        <!-- TODO:上一页按钮 -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start">
+            <Button
+                android:id="@+id/bc_prev_page"
+                android:layout_width="86dp"
+                android:layout_height="34dp"
+                android:background="@drawable/corner_radius_button_content"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp"
+                android:text="@string/detail_prev_page"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                android:textSize="16sp" />
+        </LinearLayout>
+        <!-- TODO:页面选择器 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp">
+            <Button
+                android:id="@+id/bc_back_catalog"
+                android:layout_width="match_parent"
+                android:layout_height="34dp"
+                android:background="@drawable/corner_radius_button_content"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp"
+                android:text="@string/bc_back_catalog"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                android:textSize="16sp" />
+        </LinearLayout>
+    </LinearLayout>
+    <!-- TODO:下一页按钮 -->
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end">
+        <Button
+            android:id="@+id/bc_next_page"
+            android:layout_width="86dp"
+            android:layout_height="34dp"
+            android:text="@string/detail_next_page"
+            android:textSize="16sp"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
+            android:textAlignment="center"
+            android:background="@drawable/corner_radius_button_content"
+            android:textColor="@color/white"/>
+    </LinearLayout>
+</LinearLayout>

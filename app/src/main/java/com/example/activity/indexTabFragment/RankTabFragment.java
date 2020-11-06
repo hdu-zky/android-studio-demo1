@@ -1,6 +1,6 @@
 package com.example.activity.indexTabFragment;
 
-import android.content.Intent;
+import android.annotation.SuppressLint;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 
@@ -24,7 +24,6 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.activity.activity.BookDetailActivity;
 import com.example.activity.R;
 import com.example.activity.adapter.BookIntroAdapter;
 import com.example.activity.bean.BookIntro;
@@ -63,6 +62,7 @@ public class  RankTabFragment extends Fragment {
     private static final int GET_DATA_SUCCESS = 1;
     private static final int NETWORK_ERROR = 2;
     private static final int JSON_PARSE_ERROR = 3;
+    @SuppressLint("HandlerLeak")
     private  Handler handler = new Handler(){
         @Override
         public void handleMessage(Message msg) {
@@ -199,18 +199,12 @@ public class  RankTabFragment extends Fragment {
                 //根据点击位置从适配器中取得对应数据对象
                 BookIntro bookIntro = mAdapter.getItem(position);
                 //打开书籍详细页面
-//                Intent intent = new Intent(getContext(), BookDetailActivity.class);
-//
-//                intent.putExtra("imageSrc", bookIntro.getImageSrc());
-//                intent.putExtra("bookName", bookIntro.getBookName());
-//                intent.putExtra("bookAuthor", bookIntro.getBookAuthor());
-//                intent.putExtra("bookTypeName", bookIntro.getBookTypeName());
-//                intent.putExtra("bookId", String.valueOf(bookIntro.getBookId()));
-//                intent.putExtra("bookIntroduction", bookIntro.getBookIntroduction());
-//                startActivity(intent);
                 mTransaction = mManager.beginTransaction();
                 //根据数据对象初始化书籍细节信息页面并向容器加入该碎片
-                bookDetailFragment = BookDetailFragment.newInstance(bookIntro, userId);
+                bookDetailFragment = BookDetailFragment.newInstance(
+                        String.valueOf(bookIntro.getBookId()),
+                        userId
+                );
                 // 设置动画效果
                 //mTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
                 mTransaction.setCustomAnimations(

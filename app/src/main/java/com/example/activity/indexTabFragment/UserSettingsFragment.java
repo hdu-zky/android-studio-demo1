@@ -1,5 +1,6 @@
 package com.example.activity.indexTabFragment;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -25,7 +26,6 @@ import android.widget.Toast;
 import com.example.activity.R;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
-import com.example.activity.activity.BookDetailActivity;
 import com.example.activity.activity.MainActivity;
 import com.example.activity.util.httpUtil;
 
@@ -72,6 +72,7 @@ public class UserSettingsFragment extends Fragment {
     private static final int GET_DATA_SUCCESS = 1;
     private static final int NETWORK_ERROR = 2;
     private static final int JSON_PARSE_ERROR = 3;
+    @SuppressLint("HandlerLeak")
     private Handler handler = new Handler(){
         @Override
         public void handleMessage(Message msg) {

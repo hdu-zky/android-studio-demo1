@@ -69,6 +69,7 @@ public class BookSortFragment extends Fragment {
     private FragmentManager mManager;
     private FragmentTransaction mTransaction;
     private BookDetailFragment bookDetailFragment;
+    private BookSearchFragment bookSearchFragment;
     public BookSortFragment() {
         // Required empty public constructor
     }
@@ -85,6 +86,7 @@ public class BookSortFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        Log.e("onCreate","sort");
         mManager= getActivity().getSupportFragmentManager();
         // TODO:使sdk高版本的仍可以在主进程中进行http请求
         if (android.os.Build.VERSION.SDK_INT > 9) {
@@ -103,6 +105,7 @@ public class BookSortFragment extends Fragment {
         // Inflate the layout for this fragment
         View view =  inflater.inflate(R.layout.fragment_book_sort, container, false);
 
+        Log.e("onCreateView","sort");
         setHasOptionsMenu(true);
         toolbar = view.findViewById(R.id.sort_toolbar);
 
@@ -113,11 +116,25 @@ public class BookSortFragment extends Fragment {
             public boolean onMenuItemClick(MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.action_search:
-                        Toast.makeText(getActivity(), "Search !", Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(getActivity(), "Search !", Toast.LENGTH_SHORT).show();
+                        //打开书籍详细页面
+                        mTransaction = mManager.beginTransaction();
+                        //根据数据对象初始化书籍细节信息页面并向容器加入该碎片
+                        bookSearchFragment = BookSearchFragment.newInstance(
+                                "123",
+                                userId
+                        );
+                        // 设置动画效果
+                        mTransaction.setCustomAnimations(
+                                R.anim.slide_right_in,
+                                R.anim.slide_left_out,
+                                R.anim.slide_left_in,
+                                R.anim.slide_right_out
+                        ).replace(R.id.index_content,bookSearchFragment);
+                        //加入返回栈
+                        mTransaction.addToBackStack(null);
+                        mTransaction.commit();
                         break;
-//                    case R.id.action_notifications:
-//                        Toast.makeText(getActivity(), "Notificationa !", Toast.LENGTH_SHORT).show();
-//                        break;
                     case R.id.action_settings:
                         Toast.makeText(getActivity(), "Settings !", Toast.LENGTH_SHORT).show();
                         break;
@@ -192,7 +209,10 @@ public class BookSortFragment extends Fragment {
                 BookIntro bookIntro = mAdapter.getItem(position);
                 mTransaction = mManager.beginTransaction();
                 //根据数据对象初始化书籍细节信息页面并向容器加入该碎片
-                bookDetailFragment = BookDetailFragment.newInstance(bookIntro, userId);
+                bookDetailFragment = BookDetailFragment.newInstance(
+                        String.valueOf(bookIntro.getBookId()),
+                        userId
+                );
                 // 设置动画效果
                 //mTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
                 mTransaction.setCustomAnimations(
@@ -264,6 +284,7 @@ public class BookSortFragment extends Fragment {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         menu.clear();
+        Log.e("onCreateOptionsMenu","sort");
         inflater.inflate(R.menu.menu_shelf, menu);
         super.onCreateOptionsMenu(menu, inflater);
     }
@@ -329,5 +350,30 @@ public class BookSortFragment extends Fragment {
             e.printStackTrace();
             return false;
         }
+    }
+    @Override
+    public void onStart(){
+        super.onStart();
+        Log.e("onStart","sort");
+    }
+    @Override
+    public void onPause(){
+        super.onPause();
+        Log.e("onPause","sort");
+    }
+    @Override
+    public void onStop() {
+        super.onStop();
+        Log.e("onStop","sort");
+    }
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        Log.e("onDestroyView","sort");
+    }
+    @Override
+    public void onDestroy(){
+        super.onDestroy();
+        Log.e("onPause","sort");
     }
 }

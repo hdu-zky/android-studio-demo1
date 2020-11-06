@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--TODO:顶部标题栏-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/bc_top_content"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="10dp"
+    android:orientation="horizontal"
+    android:textColor="@color/white"
+    android:background="@color/colorBlack">
+    <!-- TODO:顶部返回按键 -->
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/bc_back"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="6dp"
+            android:gravity="center"
+            android:drawableStart="@drawable/ic_direction_left_24"
+            android:background="#01000000"
+            android:textColor="@color/white"
+            android:textSize="14sp"
+            android:text="@string/detail_back"/>
+    </LinearLayout>
+    <!-- TODO:顶部标题栏 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginEnd="10dp">
+        <TextView
+            android:id="@+id/bc_top_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:paddingTop="6dp"
+            android:paddingBottom="6dp"
+            android:gravity="center"
+            android:text="标题"
+            android:textSize="16sp"
+            android:textColor="@color/white"
+            android:layout_gravity="center"/>
+        <!-- TODO:顶部标题栏 -->
+        <TextView
+            android:id="@+id/bc_top_setting"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="6dp"
+            android:paddingBottom="6dp"
+            android:paddingStart="6dp"
+            android:gravity="right"
+            android:drawableLeft="@drawable/ic_elipsis_svg_24"/>
+    </LinearLayout>
+
+</LinearLayout>

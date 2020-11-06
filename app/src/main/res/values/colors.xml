@@ -5,6 +5,8 @@
     <color name="loginBtn">#1E90FF</color>
     <color name="navBackgroundColor">#ECF0F0</color>
     <color name="bookNameColor">#000</color>
+    <color name="bookTitleDark">#5C5C5C</color>
+    <color name="bookContent">#F8F0DD</color>
     <color name="darkWhite">#ddd</color>
     <color name="info">#FF0000</color>
     <color name="colorGray">#666</color>

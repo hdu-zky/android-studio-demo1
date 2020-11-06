@@ -31,6 +31,8 @@
     <string name="loading">正在加载..</string>
     <string name="noMore">没有更多数据了</string>
     <string name="split"> / </string>
+    <string name="split_left"> [ </string>
+    <string name="split_right"> ] </string>
     <string name="detail_back">返回</string>
     <string name="detail_intro">简介</string>
     <string name="detail_latest_catalog">最新章节</string>
@@ -38,5 +40,7 @@
     <string name="detail_add">加入书架</string>
     <string name="detail_start_read">开始阅读</string>
     <string name="detail_prev_page">上一页</string>
+    <string name="bc_back_catalog">返回目录</string>
     <string name="detail_next_page">下一页</string>
+    <string name="search_result">搜索结果</string>
 </resources>

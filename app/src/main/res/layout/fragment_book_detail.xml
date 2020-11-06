@@ -49,7 +49,7 @@
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/swipeRefreshLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_weight="1"
         >
     <!-- TODO:下拉刷新-->
@@ -100,7 +100,7 @@
                     <!-- TODO:书籍名 -->
                     <TextView
                         android:id="@+id/bd_bookName"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="4dp"
                         android:textColor="@color/white"
@@ -109,7 +109,7 @@
                         android:textStyle="bold" />
                     <!-- TODO:书籍作者名 -->
                     <LinearLayout
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="4dp">
 
@@ -145,10 +145,39 @@
                             android:id="@+id/bd_status"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textColor="@color/colorGray"
+                            android:layout_marginStart="3dp"
+                            android:textColor="@color/white"
                             android:textSize="14sp" />
                     </LinearLayout>
-
+                    <!-- TODO:书籍最新章节 -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp">
+                        <TextView
+                            android:id="@+id/bd_chapter_title"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/white"
+                            android:textSize="14sp" />
+                        <TextView
+                            android:id="@+id/bd_chapter"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:visibility="gone"/>
+                    </LinearLayout>
+                    <!-- TODO:书籍更新时间 -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp">
+                        <TextView
+                            android:id="@+id/bd_time"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/darkWhite"
+                            android:textSize="12sp" />
+                    </LinearLayout>
                 </LinearLayout>
             </RelativeLayout>
             <LinearLayout
@@ -264,79 +293,80 @@
                             android:dividerHeight="1dp"/>
                     </LinearLayout>
                 </LinearLayout>
-
-            </LinearLayout>
-            <!-- TODO:页面跳转选择器 -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="60dp"
-                android:background="#eee">
+                <!-- TODO:页面跳转选择器 -->
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginEnd="10dp"
-                    android:padding="6dp"
-                    android:orientation="horizontal"
-                    android:baselineAligned="false">
+                    android:layout_height="wrap_content">
                     <LinearLayout
-                        android:layout_width="0dp"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1">
-                        <!-- TODO:上一页按钮 -->
+                        android:layout_marginStart="10dp"
+                        android:layout_marginEnd="10dp"
+
+                        android:layout_marginBottom="60dp"
+
+                        android:padding="6dp"
+                        android:orientation="horizontal"
+                        android:baselineAligned="false">
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1">
+                            <!-- TODO:上一页按钮 -->
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="start">
+                                <Button
+                                    android:id="@+id/bd_prev_page"
+                                    android:layout_width="86dp"
+                                    android:layout_height="34dp"
+                                    android:background="@drawable/corner_radius_button_page"
+                                    android:paddingStart="8dp"
+                                    android:paddingEnd="8dp"
+                                    android:text="@string/detail_prev_page"
+                                    android:textAlignment="center"
+                                    android:textColor="@color/white"
+                                    android:textSize="16sp" />
+                            </LinearLayout>
+                            <!-- TODO:页面选择器 -->
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="2dp"
+                                android:layout_marginEnd="2dp">
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:background="@drawable/corner_radius_selector"
+                                    android:paddingStart="8dp"
+                                    android:paddingTop="6dp"
+                                    android:paddingBottom="6dp"
+                                    android:textSize="16sp"
+                                    android:text=""/>
+                            </LinearLayout>
+                        </LinearLayout>
+                        <!-- TODO:下一页按钮 -->
                         <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="start">
+                            android:layout_gravity="end">
                             <Button
-                                android:id="@+id/bd_prev_page"
+                                android:id="@+id/bd_next_page"
                                 android:layout_width="86dp"
                                 android:layout_height="34dp"
-                                android:background="@drawable/corner_radius_button_page"
+                                android:text="@string/detail_next_page"
+                                android:textSize="16sp"
                                 android:paddingStart="8dp"
                                 android:paddingEnd="8dp"
-                                android:text="@string/detail_prev_page"
                                 android:textAlignment="center"
-                                android:textColor="@color/white"
-                                android:textSize="16sp" />
+                                android:background="@drawable/corner_radius_button_page"
+                                android:textColor="@color/white"/>
                         </LinearLayout>
-                        <!-- TODO:页面选择器 -->
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="2dp"
-                            android:layout_marginEnd="2dp">
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:background="@drawable/corner_radius_selector"
-                                android:paddingStart="8dp"
-                                android:paddingTop="6dp"
-                                android:paddingBottom="6dp"
-                                android:textSize="16sp"
-                                android:text=""/>
-                        </LinearLayout>
-                    </LinearLayout>
-                    <!-- TODO:下一页按钮 -->
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="end">
-                        <Button
-                            android:id="@+id/bd_next_page"
-                            android:layout_width="86dp"
-                            android:layout_height="34dp"
-                            android:text="@string/detail_next_page"
-                            android:textSize="16sp"
-                            android:paddingStart="8dp"
-                            android:paddingEnd="8dp"
-                            android:textAlignment="center"
-                            android:background="@drawable/corner_radius_button_page"
-                            android:textColor="@color/white"/>
                     </LinearLayout>
                 </LinearLayout>
             </LinearLayout>
+
         </LinearLayout>
     </ScrollView >
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
@@ -362,14 +392,10 @@
             android:layout_gravity="start">
             <Button
                 android:id="@+id/bd_add_shelf"
-                android:layout_width="120dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/detail_add"
                 android:textSize="16sp"
-                android:paddingStart="10dp"
-                android:paddingEnd="10dp"
-                android:paddingTop="8dp"
-                android:paddingBottom="8dp"
                 android:textAlignment="center"
                 android:background="@drawable/corner_radius_button_2"
                 android:textColor="@color/white"/>
@@ -381,14 +407,10 @@
             android:layout_gravity="end">
             <Button
                 android:id="@+id/bd_start_read"
-                android:layout_width="120dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/detail_start_read"
                 android:textSize="16sp"
-                android:paddingStart="10dp"
-                android:paddingEnd="10dp"
-                android:paddingTop="8dp"
-                android:paddingBottom="8dp"
                 android:textAlignment="center"
                 android:background="@drawable/corner_radius_button"
                 android:textColor="@color/white"/>

@@ -45,8 +45,7 @@
         android:layout_height="wrap_content"
         android:paddingLeft="6dp"
         android:paddingRight="6dp"
-        android:orientation="vertical"
-        android:layout_below="@+id/sort_toolbar">
+        android:orientation="vertical">
         <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
             android:id="@+id/bookSort_swipeRefreshLayout"
             android:layout_width="match_parent"

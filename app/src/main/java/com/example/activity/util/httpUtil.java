@@ -71,7 +71,7 @@ public class httpUtil {
                         }
                     }else{
                         if (callback != null){
-                            callback.onError("获取数据失败,请检查网络连接");
+                            callback.onError(String.valueOf(conn.getResponseCode()));
                         }
                     }
                 }catch (Exception e){

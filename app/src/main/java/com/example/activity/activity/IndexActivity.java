@@ -186,16 +186,16 @@ public class IndexActivity extends AppCompatActivity implements BottomNavigation
         mTransaction.add(R.id.fl_content, mBookRankFragment);
         mTransaction.commit();
     }
-    @Override
-    public void onBackPressed() {
-        if(System.currentTimeMillis()-firstBackTime>2000){
-            Toast.makeText(this, "再次点击返回键退出", Toast.LENGTH_SHORT).show();
-            firstBackTime=System.currentTimeMillis();
-        }else{
-            super.onBackPressed();
-            //停止进程
-            //其中System.exit(0)代表进程正常退出  System.exit(1)代表程序异常退出
-            System.exit(0);
-        }
-    }
+//    @Override
+//    public void onBackPressed() {
+//        if(System.currentTimeMillis()-firstBackTime>2000){
+//            Toast.makeText(this, "再次点击返回键退出", Toast.LENGTH_SHORT).show();
+//            firstBackTime=System.currentTimeMillis();
+//        }else{
+//            super.onBackPressed();
+//            //停止进程
+//            //其中System.exit(0)代表进程正常退出  System.exit(1)代表程序异常退出
+//            System.exit(0);
+//        }
+//    }
 }

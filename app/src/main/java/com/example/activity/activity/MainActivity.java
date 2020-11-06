@@ -3,6 +3,7 @@ package com.example.activity.activity;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 //import android.support.design.widget.TextInputLayout;
+import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -59,6 +60,8 @@ public class MainActivity extends AppCompatActivity {
     private static final int LOGIN_FAIL = 4;
     //是否自动登录
     private static boolean autoLogin;
+    @SuppressLint("HandlerLeak")
+    //https://blog.csdn.net/qq_31939617/article/details/80858902
     private Handler handler = new Handler(){
         @Override
         public void handleMessage(Message msg) {

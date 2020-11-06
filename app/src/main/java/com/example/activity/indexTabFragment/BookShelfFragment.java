@@ -1,5 +1,6 @@
 package com.example.activity.indexTabFragment;
 
+import android.annotation.SuppressLint;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 
@@ -69,7 +70,7 @@ public class BookShelfFragment extends Fragment {
     private httpUtil http = new httpUtil();
     private static String[] httpUrl= new String[]{
             "http://192.168.0.109:3000/bookShelf",
-            "http://192.168.0.109:3000/bookInfo/removeBook",
+            "http://192.168.0.109:3000/bookShelf/removeBook",
     };
     private static final int GET_DATA_SUCCESS = 1;
     private static final int remove_shelf_callback = 2;
@@ -79,7 +80,9 @@ public class BookShelfFragment extends Fragment {
     private FragmentManager mManager;
     private FragmentTransaction mTransaction;
     private BookDetailFragment bookDetailFragment;
+    private BookSearchFragment bookSearchFragment;
     //用来接收联网线程结束后发送的信号并进行UI相应处理
+    @SuppressLint("HandlerLeak")
     private  Handler handler = new Handler(){
         @Override
         public void handleMessage(Message msg) {
@@ -129,6 +132,7 @@ public class BookShelfFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mManager= getActivity().getSupportFragmentManager();
         // TODO:使sdk高版本的仍可以在主进程中进行http请求
         if (android.os.Build.VERSION.SDK_INT > 9) {
             StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
@@ -157,6 +161,23 @@ public class BookShelfFragment extends Fragment {
                 switch (item.getItemId()) {
                     case R.id.action_search:
                         Toast.makeText(getActivity(), "Search !", Toast.LENGTH_SHORT).show();
+                        //打开书籍详细页面
+                        mTransaction = mManager.beginTransaction();
+                        //根据数据对象初始化书籍细节信息页面并向容器加入该碎片
+                        bookSearchFragment = BookSearchFragment.newInstance(
+                                "123",
+                                userId
+                        );
+                        // 设置动画效果
+                        mTransaction.setCustomAnimations(
+                                R.anim.slide_right_in,
+                                R.anim.slide_left_out,
+                                R.anim.slide_left_in,
+                                R.anim.slide_right_out
+                        ).replace(R.id.index_content,bookSearchFragment);
+                        //加入返回栈
+                        mTransaction.addToBackStack(null);
+                        mTransaction.commit();
                         break;
 //                    case R.id.action_notifications:
 //                        Toast.makeText(getActivity(), "Notificationa !", Toast.LENGTH_SHORT).show();
@@ -195,21 +216,24 @@ public class BookShelfFragment extends Fragment {
             @Override
             public void onItemClick(View view, int position) {
                 //根据点击位置从适配器中取得对应数据对象
-//                BookShelf bookIntro = mAdapter.getItem(position);
-//                mTransaction = mManager.beginTransaction();
-//                //根据数据对象初始化书籍细节信息页面并向容器加入该碎片
-//                bookDetailFragment = BookDetailFragment.newInstance(bookIntro, userId);
-//                // 设置动画效果
-//                //mTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-//                mTransaction.setCustomAnimations(
-//                        R.anim.slide_right_in,
-//                        R.anim.slide_left_out,
-//                        R.anim.slide_left_in,
-//                        R.anim.slide_right_out
-//                ).replace(R.id.index_content,bookDetailFragment);
-//                //加入返回栈
-//                mTransaction.addToBackStack(null);
-//                mTransaction.commit();
+                BookShelf bookShelf = mAdapter.getItem(position);
+                mTransaction = mManager.beginTransaction();
+                //根据数据对象初始化书籍细节信息页面并向容器加入该碎片
+                bookDetailFragment = BookDetailFragment.newInstance(
+                        String.valueOf(bookShelf.getBookId()),
+                        userId
+                );
+                // 设置动画效果
+                //mTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+                mTransaction.setCustomAnimations(
+                        R.anim.slide_right_in,
+                        R.anim.slide_left_out,
+                        R.anim.slide_left_in,
+                        R.anim.slide_right_out
+                ).replace(R.id.index_content,bookDetailFragment);
+                //加入返回栈
+                mTransaction.addToBackStack(null);
+                mTransaction.commit();
             }
 
             @Override
@@ -226,7 +250,7 @@ public class BookShelfFragment extends Fragment {
     }
     private void bookOptionsMenu(@NonNull View itemView, final int position) {
         View view = LayoutInflater.from(getContext()).inflate(R.layout.book_shelf_options, null, false);
-        Button removeBook = (Button) view.findViewById(R.id.btn_remove_book);
+        Button removeBookView = (Button) view.findViewById(R.id.btn_remove_book);
         Button quit = (Button) view.findViewById(R.id.btn_quit);
         //1.构造一个PopupWindow，参数依次是加载的View，宽高
         final PopupWindow popWindow = new PopupWindow(view,
@@ -257,7 +281,7 @@ public class BookShelfFragment extends Fragment {
         final String bookId = String.valueOf(bookShelfList.get(position).getBookId());
 //        final String userId = getArguments().getString("userId");
         //设置popupWindow里的按钮的事件
-        removeBook.setOnClickListener(new View.OnClickListener() {
+        removeBookView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 removeBook(bookId, position);
